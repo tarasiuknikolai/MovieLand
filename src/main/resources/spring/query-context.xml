@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="getAllMoviesSQL" class="java.lang.String">
+        <constructor-arg value="SELECT GROUP_CONCAT(DISTINCT g.genre)
+                                     , GROUP_CONCAT(DISTINCT c.country)
+                                     , m.*
+                                  FROM movie m
+                                  JOIN movie_genre mg
+                                    ON m.id=mg.movieid
+                                  JOIN genre g
+                                    ON g.id = mg.genreid
+                                  JOIN movie_country mc
+                                    ON m.id=mc.movieid
+                                  JOIN country c
+                                    ON c.id = mc.countryid
+                                 GROUP BY m.id"/>
+    </bean>
+
+    <bean id="getMovieByIdSQL" class="java.lang.String">
+        <constructor-arg value="SELECT m.*
+                                  FROM movie m
+                                 WHERE m.id = ?"/>
+    </bean>
+
+</beans>
