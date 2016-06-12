@@ -12,6 +12,7 @@ public class Movie {
     private String descr;
     private double rating;
     private double price;
+    private List<Review> review;
 
     public int getId() {
         return id;
@@ -83,6 +84,14 @@ public class Movie {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public List<Review> getReview() {
+        return review;
+    }
+
+    public void setReview(List<Review> review) {
+        this.review = review;
     }
 
     @Override

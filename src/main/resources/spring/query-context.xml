@@ -5,25 +5,27 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="getAllMoviesSQL" class="java.lang.String">
-        <constructor-arg value="SELECT GROUP_CONCAT(DISTINCT g.genre)
-                                     , GROUP_CONCAT(DISTINCT c.country)
-                                     , m.*
-                                  FROM movie m
-                                  JOIN movie_genre mg
-                                    ON m.id=mg.movieid
-                                  JOIN genre g
-                                    ON g.id = mg.genreid
-                                  JOIN movie_country mc
-                                    ON m.id=mc.movieid
-                                  JOIN country c
-                                    ON c.id = mc.countryid
-                                 GROUP BY m.id"/>
+        <constructor-arg value="SELECT * FROM movie"/>
     </bean>
 
     <bean id="getMovieByIdSQL" class="java.lang.String">
-        <constructor-arg value="SELECT m.*
-                                  FROM movie m
-                                 WHERE m.id = ?"/>
+        <constructor-arg value="SELECT * FROM movie WHERE id = ?"/>
+    </bean>
+
+    <bean id="getAllReviewForMovieSQL" class="java.lang.String">
+        <constructor-arg value="SELECT * FROM review WHERE movieid = ?"/>
+    </bean>
+
+    <bean id="getLimitedReviewForMovieSQL" class="java.lang.String">
+        <constructor-arg value="SELECT * FROM review WHERE movieid = ? LIMIT ?"/>
+    </bean>
+
+    <bean id="getAllGenresForMovieSQL" class="java.lang.String">
+        <constructor-arg value="SELECT g.* FROM genre g JOIN movie_genre mg ON g.id = mg.genreid WHERE mg.movieid = ?"/>
+    </bean>
+
+    <bean id="getAllCountriesForMovieSQL" class="java.lang.String">
+        <constructor-arg value="SELECT c.* FROM country c JOIN movie_country mc ON c.id = mc.countryid WHERE mc.movieid = ?"/>
     </bean>
 
 </beans>

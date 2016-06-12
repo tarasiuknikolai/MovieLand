@@ -17,9 +17,8 @@
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.sqlite.JDBC" />
-        <!--<property name="url" value="jdbc:sqlite:src//main//resources//db//movieland.db"/>-->
-        <property name="url" value="jdbc:sqlite:C:/Users/NTarasiuk/IdeaProjects/movieland/src/main/resources/db/movieland.db"/>
-
+        <!--<property name="url" value="jdbc:sqlite:src/main/resources/db/movieland.db"/>-->
+        <property name="url" value="jdbc:sqlite:C:\apache-tomcat-9.0.0.M6\webapps\ROOT\WEB-INF\classes\db\movieland.db"/>
     </bean>
 
 
@@ -27,8 +26,5 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <bean id="namedJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
-        <constructor-arg ref="dataSource"/>
-    </bean>
 
 </beans>

@@ -12,23 +12,48 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Array;
+import java.util.Arrays;
+import java.util.List;
+
 @Controller
-@RequestMapping("/v1/movieland")
+@RequestMapping("/v1")
 public class MovieController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private MovieService movieService;
 
-    @RequestMapping("/{movieId}")
+    @RequestMapping(value = "/movie/{movieId}", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String getMovieById(@PathVariable int movieId) {
         log.info("Sending request to get movie with id = {}", movieId);
         long startTime = System.currentTimeMillis();
         Movie movie = movieService.getById(movieId);
+        movieService.populateCountry(movie);
+        movieService.populateGenre(movie);
+        movieService.populateReview(movie);
         Gson gson = new Gson();
         String movieJson = gson.toJson(movie);
-        log.info("City {} is received. It took {} ms", movieJson, System.currentTimeMillis() - startTime);
+        log.info("Movie {} is received. It took {} ms", movieJson, System.currentTimeMillis() - startTime);
         return movieJson;
     }
+
+
+    @RequestMapping(value = "/movies", produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String getAll() {
+        log.info("Sending request to get all movies");
+        long startTime = System.currentTimeMillis();
+        List<Movie> listMovies =  movieService.getAll();
+        movieService.populateCountry(listMovies);
+        movieService.populateGenre(listMovies);
+        movieService.populateReview(listMovies);
+        Gson gson = new Gson();
+        String movieJson = gson.toJson(listMovies);
+        log.info("All movies is received. It took {} ms", System.currentTimeMillis() - startTime);
+        return movieJson;
+    }
+
+
 }
