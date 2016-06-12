@@ -3,7 +3,7 @@ package com.tarasiuk.movieland.dao;
 import java.util.List;
 import com.tarasiuk.movieland.entity.Movie;
 
-public interface MovieDao {
+public interface MovieDAO {
 
     List<Movie> getAll();
 
