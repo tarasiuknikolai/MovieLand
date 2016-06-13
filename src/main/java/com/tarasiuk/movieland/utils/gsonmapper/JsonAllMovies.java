@@ -16,13 +16,12 @@ public class JsonAllMovies  extends TypeAdapter<Movie> {
         out.name("nameeng").value(movie.getNameeng());
         out.name("year").value(movie.getYr());
         out.name("rating").value(movie.getRating());
-
+        out.name("genres");
         out.beginArray();
-        for (Genre genre : movie.getGenre()){
+        for (Genre genre : movie.getGenre()) {
             out.value(genre.getGenre());
         }
         out.endArray();
-        out.name("genres");
         out.endObject();
     }
 
