@@ -52,7 +52,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void populateReview(Movie movie) {
-        movie.setReview(reviewService.getAllForMovie(movie.getId()));
+        movie.setReview(reviewService.getLimitedForMovie(movie.getId(), 2));
     }
 
     @Override

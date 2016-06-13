@@ -4,6 +4,7 @@ import com.tarasiuk.movieland.entity.Movie;
 import com.tarasiuk.movieland.service.MovieService;
 
 import com.google.gson.Gson;
+import com.tarasiuk.movieland.utils.JsonCustomConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
+    @Autowired
+    private JsonCustomConverter jsonCustomConverter;
+
     @RequestMapping(value = "/movie/{movieId}", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String getMovieById(@PathVariable int movieId) {
@@ -33,8 +37,7 @@ public class MovieController {
         movieService.populateCountry(movie);
         movieService.populateGenre(movie);
         movieService.populateReview(movie);
-        Gson gson = new Gson();
-        String movieJson = gson.toJson(movie);
+        String movieJson = jsonCustomConverter.movieInfoByIdToJson(movie);
         log.info("Movie {} is received. It took {} ms", movieJson, System.currentTimeMillis() - startTime);
         return movieJson;
     }
@@ -49,8 +52,7 @@ public class MovieController {
         movieService.populateCountry(listMovies);
         movieService.populateGenre(listMovies);
         movieService.populateReview(listMovies);
-        Gson gson = new Gson();
-        String movieJson = gson.toJson(listMovies);
+        String movieJson = jsonCustomConverter.allMovieToJson(listMovies);
         log.info("All movies is received. It took {} ms", System.currentTimeMillis() - startTime);
         return movieJson;
     }
