@@ -26,37 +26,31 @@ public class MovieServiceImpl implements MovieService {
     @Autowired
     private ReviewService reviewService;
 
-    @Override
-    public void populateCountry(Movie movie) {
+    private void populateCountry(Movie movie) {
         movie.setCountry(countryService.getAllForMovie(movie.getId()));
     }
 
-    @Override
-    public void populateCountry(List<Movie> movieList) {
+    private void populateCountry(List<Movie> movieList) {
         for (Movie m: movieList) {
             populateCountry(m);
         }
     }
 
-    @Override
-    public void populateGenre(Movie movie) {
+    private void populateGenre(Movie movie) {
         movie.setGenre(genreService.getAllForMovie(movie.getId()));
     }
 
-    @Override
-    public void populateGenre(List<Movie> movieList) {
+    private void populateGenre(List<Movie> movieList) {
         for (Movie m: movieList) {
             populateGenre(m);
         }
     }
 
-    @Override
-    public void populateReview(Movie movie) {
+    private void populateReview(Movie movie) {
         movie.setReview(reviewService.getLimitedForMovie(movie.getId(), 2));
     }
 
-    @Override
-    public void populateReview(List<Movie> movieList) {
+    private void populateReview(List<Movie> movieList) {
         for (Movie m: movieList) {
             populateReview(m);
         }
@@ -64,11 +58,19 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie getById(int id) {
-        return movieDao.getById(id);
+        Movie movie = movieDao.getById(id);
+        populateCountry(movie);
+        populateGenre(movie);
+        populateReview(movie);
+        return movie;
     }
 
     @Override
     public List<Movie> getAll() {
-        return movieDao.getAll();
+        List<Movie> movieList = movieDao.getAll();
+        populateCountry(movieList);
+        populateGenre(movieList);
+        populateReview(movieList);
+        return movieList;
     }
 }

@@ -4,7 +4,7 @@ public class User {
     private int id;
     private String name;
     private String email;
-    private String passwd;
+    private String password;
 
     public int getId() {
         return id;
@@ -30,12 +30,12 @@ public class User {
         this.email = email;
     }
 
-    public String getPasswd() {
-        return passwd;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswd(String passwd) {
-        this.passwd = passwd;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", passwd='" + passwd + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }

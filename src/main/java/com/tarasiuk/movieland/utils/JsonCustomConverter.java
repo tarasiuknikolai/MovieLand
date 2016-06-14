@@ -15,12 +15,11 @@ import java.util.List;
 public class JsonCustomConverter {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    final GsonBuilder gsonAllMovieBuilder = new GsonBuilder();
-    final GsonBuilder gsonMovieByIdBuilder = new GsonBuilder();
+    private GsonBuilder gson = new GsonBuilder();
+    private GsonBuilder gsonAllMovieBuilder = gson;
+    private GsonBuilder gsonMovieByIdBuilder = gson;
     {
         gsonAllMovieBuilder.registerTypeAdapter(Movie.class, new JsonAllMovies());
-    }
-    {
         gsonMovieByIdBuilder.registerTypeAdapter(Movie.class, new JsonMovieById());
     }
 
@@ -38,7 +37,7 @@ public class JsonCustomConverter {
         long startTime = System.currentTimeMillis();
         Gson gson = gsonMovieByIdBuilder.create();
         String jSonMovieById = gson.toJson(movie);
-        log.info("Movie with name {} , is converted to JSON, it took {}", movie.getNameeng(), System.currentTimeMillis() - startTime);
+        log.info("Movie with name {} , is converted to JSON, it took {}", movie.getNameOrigin(), System.currentTimeMillis() - startTime);
         return jSonMovieById;
     }
 }

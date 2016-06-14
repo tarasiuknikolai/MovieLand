@@ -15,9 +15,9 @@ public class JsonMovieById extends TypeAdapter<Movie> {
     @Override
     public void write(JsonWriter out, Movie movie) throws IOException {
         out.beginObject();
-        out.name("namerus").value(movie.getNamerus());
-        out.name("nameeng").value(movie.getNameeng());
-        out.name("year").value(movie.getYr());
+        out.name("namerus").value(movie.getNameRus());
+        out.name("nameorigin").value(movie.getNameOrigin());
+        out.name("year").value(movie.getYear());
         out.name("countries");
         out.beginArray();
         for (Country country : movie.getCountry()){

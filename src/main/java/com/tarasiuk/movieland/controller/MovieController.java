@@ -34,9 +34,6 @@ public class MovieController {
         log.info("Sending request to get movie with id = {}", movieId);
         long startTime = System.currentTimeMillis();
         Movie movie = movieService.getById(movieId);
-        movieService.populateCountry(movie);
-        movieService.populateGenre(movie);
-        movieService.populateReview(movie);
         String movieJson = jsonCustomConverter.movieInfoByIdToJson(movie);
         log.info("Movie {} is received. It took {} ms", movieJson, System.currentTimeMillis() - startTime);
         return movieJson;
@@ -49,9 +46,6 @@ public class MovieController {
         log.info("Sending request to get all movies");
         long startTime = System.currentTimeMillis();
         List<Movie> listMovies =  movieService.getAll();
-        movieService.populateCountry(listMovies);
-        movieService.populateGenre(listMovies);
-        movieService.populateReview(listMovies);
         String movieJson = jsonCustomConverter.allMovieToJson(listMovies);
         log.info("All movies is received. It took {} ms", System.currentTimeMillis() - startTime);
         return movieJson;

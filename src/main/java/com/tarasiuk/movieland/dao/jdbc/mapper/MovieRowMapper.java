@@ -11,12 +11,12 @@ public class MovieRowMapper implements RowMapper<Movie> {
     public Movie mapRow(ResultSet resultSet, int i) throws SQLException {
         Movie movie = new Movie();
         movie.setId(resultSet.getInt("id"));
-        movie.setNamerus(resultSet.getString("namerus"));
-        movie.setNameeng(resultSet.getString("nameeng"));
-        movie.setYr(resultSet.getInt("yr"));
-        movie.setDescr(resultSet.getString("descr"));
-        movie.setRating(resultSet.getInt("rating"));
-        movie.setPrice(resultSet.getInt("price"));
+        movie.setNameRus(resultSet.getString("namerus"));
+        movie.setNameOrigin(resultSet.getString("nameorigin"));
+        movie.setYear(resultSet.getInt("year"));
+        movie.setDescription(resultSet.getString("description"));
+        movie.setRating(resultSet.getDouble("rating"));
+        movie.setPrice(resultSet.getDouble("price"));
         return movie;
     }
 }
