@@ -73,4 +73,13 @@ public class MovieServiceImpl implements MovieService {
         populateReview(movieList);
         return movieList;
     }
+
+    public List<Movie> getQueried() {
+        List<Movie> movieList = movieDao.getAll("");
+        //populateCountry(movieList);
+        //populateGenre(movieList);
+        //populateReview(movieList);
+        return movieList;
+    }
+
 }

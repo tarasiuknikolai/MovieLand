@@ -2,6 +2,7 @@ package com.tarasiuk.movieland.controller;
 
 import com.tarasiuk.movieland.dto.MovieAllDTO;
 import com.tarasiuk.movieland.dto.MovieByIdDTO;
+import com.tarasiuk.movieland.dto.MovieQueryDTO;
 import com.tarasiuk.movieland.entity.Movie;
 import com.tarasiuk.movieland.service.MovieService;
 
@@ -72,4 +73,18 @@ public class MovieController {
         log.info("All movies is received. It took {} ms", System.currentTimeMillis() - startTime);
         return movieListDTO;
     }
+
+    @RequestMapping(value = "/search", consumes = "application/json;charset=UTF-8", method = RequestMethod.POST)
+    @ResponseBody
+    public List<MovieAllDTO> gtMovieById(MovieQueryDTO movieQueryDTO) {
+        System.out.println(movieQueryDTO);
+        //log.info("Sending request to get movie with id = {}", movieId);
+        long startTime = System.currentTimeMillis();
+        //log.info("Movie with ID {} is received. It took {} ms", movieId , System.currentTimeMillis() - startTime);
+        //List<Movie> listMovieQuery = movieService.getQueried();
+        List<MovieAllDTO> movieListQueryDTO = new ArrayList<>();
+        return movieListQueryDTO;
+    }
+
+
 }

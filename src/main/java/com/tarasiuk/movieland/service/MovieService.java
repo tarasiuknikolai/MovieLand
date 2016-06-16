@@ -7,6 +7,8 @@ public interface MovieService {
 
     List<Movie> getAll(String orderClause);
 
+    List<Movie> getQueried();
+
     Movie getById(int id);
 
 }
