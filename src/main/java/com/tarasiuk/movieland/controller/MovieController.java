@@ -38,13 +38,15 @@ public class MovieController {
         long startTime = System.currentTimeMillis();
         ModelMapper modelMapper = new ModelMapper();
         MovieByIdDTO movieByIdDTO = modelMapper.map(movieService.getById(movieId), MovieByIdDTO.class);
-        log.info("Movie with ID {} is received. It took {} ms", movieId , System.currentTimeMillis() - startTime);
+        log.info("Movie with ID {} is received. It took {} ms", movieId, System.currentTimeMillis() - startTime);
         return movieByIdDTO;
     }
 
-    private String formingOrderClause (String clause, String field) {
-        if (clause!=null && clause.toUpperCase().equals(OrderClause.ASC.toString())) return field + OrderClause.ASC.toString();
-        else if (clause!=null && clause.toUpperCase().equals(OrderClause.DESC.toString())) return field + OrderClause.DESC.toString();
+    private String formingOrderClause(String clause, String field) {
+        if (clause != null && clause.toUpperCase().equals(OrderClause.ASC.getOrderClause()))
+            return field + OrderClause.ASC.getOrderClause();
+        else if (clause != null && clause.toUpperCase().equals(OrderClause.DESC.getOrderClause()))
+            return field + OrderClause.DESC.getOrderClause();
         else return "";
     }
 
@@ -76,7 +78,7 @@ public class MovieController {
 
     @RequestMapping(value = "/search", consumes = "application/json;charset=UTF-8", method = RequestMethod.POST)
     @ResponseBody
-    public List<MovieAllDTO> gtMovieById(MovieQueryDTO movieQueryDTO) {
+    public List<MovieAllDTO> gtMovieById(@RequestBody MovieQueryDTO movieQueryDTO) {
         System.out.println(movieQueryDTO);
         //log.info("Sending request to get movie with id = {}", movieId);
         long startTime = System.currentTimeMillis();
@@ -85,6 +87,4 @@ public class MovieController {
         List<MovieAllDTO> movieListQueryDTO = new ArrayList<>();
         return movieListQueryDTO;
     }
-
-
 }
