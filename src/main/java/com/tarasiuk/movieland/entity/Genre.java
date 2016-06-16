@@ -1,6 +1,9 @@
 package com.tarasiuk.movieland.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Genre {
+    @JsonIgnore
     private int id;
     private String genre;
 

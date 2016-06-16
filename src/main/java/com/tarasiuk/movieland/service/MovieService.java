@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface MovieService {
 
-    List<Movie> getAll();
+    List<Movie> getAll(String orderClause);
 
     Movie getById(int id);
 

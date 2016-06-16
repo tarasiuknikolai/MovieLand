@@ -5,7 +5,7 @@ import com.tarasiuk.movieland.entity.Movie;
 
 public interface MovieDAO {
 
-    List<Movie> getAll();
+    List<Movie> getAll(String orderClause);
 
     Movie getById(int id);
 

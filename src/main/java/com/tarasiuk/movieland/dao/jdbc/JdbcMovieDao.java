@@ -24,10 +24,10 @@ public class JdbcMovieDAO implements MovieDAO {
     private String getAllMoviesSQL;
 
     @Override
-    public List<Movie> getAll() {
+    public List<Movie> getAll(String orderClause) {
         log.info("Start query to get all movies from DB");
         long startTime = System.currentTimeMillis();
-        List<Movie> movieList = jdbcTemplate.query(getAllMoviesSQL,  new MovieRowMapper());
+        List<Movie> movieList = jdbcTemplate.query(getAllMoviesSQL + orderClause,  new MovieRowMapper());
         log.info("Finish query to get all movies from DB. It took {} ms", System.currentTimeMillis() - startTime);
         return movieList;
     }

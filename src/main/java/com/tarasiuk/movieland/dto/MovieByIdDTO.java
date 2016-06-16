@@ -1,28 +1,20 @@
-package com.tarasiuk.movieland.entity;
+package com.tarasiuk.movieland.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tarasiuk.movieland.entity.Country;
+import com.tarasiuk.movieland.entity.Genre;
+import com.tarasiuk.movieland.entity.Review;
 
 import java.util.List;
 
-public class Movie {
-    private int id;
+public class MovieByIdDTO {
     private String nameRus;
     private String nameOrigin;
     private int year;
     private List<Country> country;
     private List<Genre> genre;
     private String description;
-    private double rating;
-    private double price;
     private List<Review> review;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    private double rating;
 
     public String getNameRus() {
         return nameRus;
@@ -72,22 +64,6 @@ public class Movie {
         this.description = description;
     }
 
-    public double getRating() {
-        return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public List<Review> getReview() {
         return review;
     }
@@ -96,19 +72,11 @@ public class Movie {
         this.review = review;
     }
 
-    @Override
-    public String toString() {
-        return "Movie{" +
-                "id=" + id +
-                ", nameRus='" + nameRus + '\'' +
-                ", nameOrigin='" + nameOrigin + '\'' +
-                ", year=" + year +
-                ", country=" + country +
-                ", genre=" + genre +
-                ", description='" + description + '\'' +
-                ", rating=" + rating +
-                ", price=" + price +
-                ", review=" + review +
-                '}';
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 }
