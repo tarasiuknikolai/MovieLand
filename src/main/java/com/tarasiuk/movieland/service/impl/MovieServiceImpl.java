@@ -66,19 +66,26 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getAll(String orderClause) {
-        List<Movie> movieList = movieDao.getAll(orderClause);
+    public List<Movie> getAll() {
+        List<Movie> movieList = movieDao.getAll();
         populateCountry(movieList);
         populateGenre(movieList);
         populateReview(movieList);
         return movieList;
     }
 
+    @Override
+    public List<Movie> getAll(String ratingOrder, String priceOrder) {
+        List<Movie> movieList = movieDao.getAll(ratingOrder, priceOrder);
+        populateCountry(movieList);
+        populateGenre(movieList);
+        populateReview(movieList);
+        return movieList;
+    }
+
+
     public List<Movie> getQueried() {
-        List<Movie> movieList = movieDao.getAll("");
-        //populateCountry(movieList);
-        //populateGenre(movieList);
-        //populateReview(movieList);
+        List<Movie> movieList = movieDao.getAll();
         return movieList;
     }
 

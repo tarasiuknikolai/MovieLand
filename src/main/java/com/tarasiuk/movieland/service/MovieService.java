@@ -5,7 +5,9 @@ import java.util.List;
 
 public interface MovieService {
 
-    List<Movie> getAll(String orderClause);
+    List<Movie> getAll();
+
+    List<Movie> getAll(String ratingOrder, String priceOrder);
 
     List<Movie> getQueried();
 

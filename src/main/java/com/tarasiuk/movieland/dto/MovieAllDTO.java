@@ -1,7 +1,10 @@
 package com.tarasiuk.movieland.dto;
 
 import java.util.List;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.tarasiuk.movieland.entity.Genre;
+import com.tarasiuk.movieland.utils.JsonCustomGenreSerializer;
 
 
 public class MovieAllDTO {
@@ -9,6 +12,8 @@ public class MovieAllDTO {
     private String nameOrigin;
     private int year;
     private double rating;
+
+    @JsonSerialize(using = JsonCustomGenreSerializer.class)
     private List<Genre> genre;
 
     public String getNameRus() {

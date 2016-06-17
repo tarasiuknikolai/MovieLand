@@ -42,14 +42,6 @@ public class MovieController {
         return movieByIdDTO;
     }
 
-    private String formingOrderClause(String clause, String field) {
-        if (clause != null && clause.toUpperCase().equals(OrderClause.ASC.getOrderClause()))
-            return field + OrderClause.ASC.getOrderClause();
-        else if (clause != null && clause.toUpperCase().equals(OrderClause.DESC.getOrderClause()))
-            return field + OrderClause.DESC.getOrderClause();
-        else return "";
-    }
-
     @RequestMapping(value = "/movies", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public List<MovieAllDTO> getAll(@RequestParam(value = "rating", required = false) String ratingOrder
@@ -57,13 +49,8 @@ public class MovieController {
 
         log.info("Sending request to get all movies");
         long startTime = System.currentTimeMillis();
-        StringBuilder orderClause = new StringBuilder(" ORDER BY 'a' ");
-        if (ratingOrder != null || priceOrder != null) {
-            orderClause.append(formingOrderClause(ratingOrder, ", rating "));
-            orderClause.append(formingOrderClause(priceOrder, ", price "));
-        } else orderClause.delete(0, orderClause.length());
 
-        List<Movie> listMovie = movieService.getAll(orderClause.toString());
+        List<Movie> listMovie = movieService.getAll(ratingOrder, priceOrder);
 
         List<MovieAllDTO> movieListDTO = new ArrayList();
         ModelMapper modelMapper = new ModelMapper();
@@ -80,11 +67,6 @@ public class MovieController {
     @ResponseBody
     public List<MovieAllDTO> gtMovieById(@RequestBody MovieQueryDTO movieQueryDTO) {
         System.out.println(movieQueryDTO);
-        //log.info("Sending request to get movie with id = {}", movieId);
-        long startTime = System.currentTimeMillis();
-        //log.info("Movie with ID {} is received. It took {} ms", movieId , System.currentTimeMillis() - startTime);
-        //List<Movie> listMovieQuery = movieService.getQueried();
-        List<MovieAllDTO> movieListQueryDTO = new ArrayList<>();
-        return movieListQueryDTO;
+        return null;
     }
 }
