@@ -1,14 +1,8 @@
-package com.tarasiuk.movieland.utils;
+package com.tarasiuk.movieland.dao.jdbc;
 
 public enum OrderClause {
-    ASC ("ASC"),
-    DESC ("DESC");
-
-    private String orderClause;
-
-    OrderClause(String orderClause) {
-        this.orderClause = orderClause;
-    }
+    ASC,
+    DESC;
 
     public static boolean contains(String orderClause) {
         for (OrderClause c : OrderClause.values()) {
@@ -17,9 +11,5 @@ public enum OrderClause {
             }
         }
         return false;
-    }
-
-    public String getOrderClause() {
-        return orderClause;
     }
 }

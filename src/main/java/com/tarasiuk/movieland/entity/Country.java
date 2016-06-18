@@ -1,6 +1,9 @@
 package com.tarasiuk.movieland.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Country {
+    @JsonIgnore
     private int id;
     private String country;
 

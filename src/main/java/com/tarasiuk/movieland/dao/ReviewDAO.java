@@ -7,6 +7,6 @@ public interface ReviewDAO {
 
     List<Review> getAllForMovie (int movieId);
 
-    List<Review> getLimitedForMovie (int movieId, int limitCnt);
+    List<Review> getLimitedForMovie (int movieId, int limitCount);
 
 }

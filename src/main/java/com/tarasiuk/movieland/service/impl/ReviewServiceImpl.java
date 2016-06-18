@@ -19,7 +19,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<Review> getLimitedForMovie(int movieId, int limitCnt) {
-        return reviewDao.getLimitedForMovie(movieId, limitCnt);
+    public List<Review> getLimitedForMovie(int movieId, int limitCount) {
+        return reviewDao.getLimitedForMovie(movieId, limitCount);
     }
 }

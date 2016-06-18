@@ -8,6 +8,7 @@ import com.tarasiuk.movieland.service.MovieService;
 
 import com.tarasiuk.movieland.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +26,10 @@ public class MovieServiceImpl implements MovieService {
 
     @Autowired
     private ReviewService reviewService;
+
+    @Value("${sql.review.limit:2}")
+    private int limitCount;
+
 
     private void populateCountry(Movie movie) {
         movie.setCountry(countryService.getAllForMovie(movie.getId()));
@@ -47,7 +52,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     private void populateReview(Movie movie) {
-        movie.setReview(reviewService.getLimitedForMovie(movie.getId(), 2));
+        movie.setReview(reviewService.getLimitedForMovie(movie.getId(), limitCount));
     }
 
     private void populateReview(List<Movie> movieList) {
@@ -66,26 +71,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getAll() {
-        List<Movie> movieList = movieDao.getAll();
-        populateCountry(movieList);
-        populateGenre(movieList);
-        populateReview(movieList);
-        return movieList;
-    }
-
-    @Override
     public List<Movie> getAll(String ratingOrder, String priceOrder) {
         List<Movie> movieList = movieDao.getAll(ratingOrder, priceOrder);
         populateCountry(movieList);
         populateGenre(movieList);
         populateReview(movieList);
-        return movieList;
-    }
-
-
-    public List<Movie> getQueried() {
-        List<Movie> movieList = movieDao.getAll();
         return movieList;
     }
 

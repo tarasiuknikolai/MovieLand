@@ -1,10 +1,12 @@
 package com.tarasiuk.movieland.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Genre {
     @JsonIgnore
     private int id;
+    @JsonProperty
     private String genre;
 
     public int getId() {return id;}

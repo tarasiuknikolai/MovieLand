@@ -9,6 +9,8 @@
 
     <import resource="query-context.xml"/>
 
+    <context:property-placeholder location="classpath:movieland.properties"/>
+
     <context:component-scan base-package="com.tarasiuk.movieland">
         <context:exclude-filter type="regex" expression="com\.tarasiuk\.movieland\.controller\..*"/>
     </context:component-scan>
@@ -17,8 +19,7 @@
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.sqlite.JDBC" />
-        <!--<property name="url" value="jdbc:sqlite:src/main/resources/db/movieland.db"/>-->
-        <property name="url" value="jdbc:sqlite:C:\apache-tomcat-9.0.0.M6\webapps\ROOT\WEB-INF\classes\db\movieland.db"/>
+        <property name="url" value="jdbc:sqlite:${CATALINA_HOME}\webapps\ROOT\WEB-INF\classes\db\movieland.db"/>
     </bean>
 
 

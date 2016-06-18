@@ -2,18 +2,13 @@ package com.tarasiuk.movieland.controller;
 
 import com.tarasiuk.movieland.dto.MovieAllDTO;
 import com.tarasiuk.movieland.dto.MovieByIdDTO;
-import com.tarasiuk.movieland.dto.MovieQueryDTO;
 import com.tarasiuk.movieland.entity.Movie;
 import com.tarasiuk.movieland.service.MovieService;
 
-import com.tarasiuk.movieland.utils.JsonCustomConverter;
-import com.tarasiuk.movieland.utils.OrderClause;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,10 +23,7 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
-    @Autowired
-    private JsonCustomConverter jsonCustomConverter;
-
-    @RequestMapping(value = "/movie/{movieId}", produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/movie/{movieId}", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
     @ResponseBody
     public MovieByIdDTO getMovieById(@PathVariable int movieId) {
         log.info("Sending request to get movie with id = {}", movieId);
@@ -42,7 +34,7 @@ public class MovieController {
         return movieByIdDTO;
     }
 
-    @RequestMapping(value = "/movies", produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/movies", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
     @ResponseBody
     public List<MovieAllDTO> getAll(@RequestParam(value = "rating", required = false) String ratingOrder
             , @RequestParam(value = "price", required = false) String priceOrder) {
@@ -61,12 +53,5 @@ public class MovieController {
 
         log.info("All movies is received. It took {} ms", System.currentTimeMillis() - startTime);
         return movieListDTO;
-    }
-
-    @RequestMapping(value = "/search", consumes = "application/json;charset=UTF-8", method = RequestMethod.POST)
-    @ResponseBody
-    public List<MovieAllDTO> gtMovieById(@RequestBody MovieQueryDTO movieQueryDTO) {
-        System.out.println(movieQueryDTO);
-        return null;
     }
 }

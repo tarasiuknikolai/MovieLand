@@ -35,11 +35,11 @@ public class JdbcReviewDAO implements ReviewDAO {
     }
 
     @Override
-    public List<Review> getLimitedForMovie(int movieId, int limitCnt) {
-        log.info("Start query {} rows to get reviews for movie from DB", limitCnt);
+    public List<Review> getLimitedForMovie(int movieId, int limitCount) {
+        log.info("Start query {} rows to get reviews for movie from DB", limitCount);
         long startTime = System.currentTimeMillis();
-        List<Review> reviewList = jdbcTemplate.query(getLimitedReviewForMovieSQL, new Object[]{movieId, limitCnt} , new ReviewRowMapper());
-        log.info("Finish query {} rows to get reviews for movie from DB. It took {} ms", limitCnt, System.currentTimeMillis() - startTime);
+        List<Review> reviewList = jdbcTemplate.query(getLimitedReviewForMovieSQL, new Object[]{movieId, limitCount} , new ReviewRowMapper());
+        log.info("Finish query {} rows to get reviews for movie from DB. It took {} ms", limitCount, System.currentTimeMillis() - startTime);
         return reviewList;
     }
 }
