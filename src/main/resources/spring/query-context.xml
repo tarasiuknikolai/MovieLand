@@ -5,7 +5,7 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="getAllMoviesSQL" class="java.lang.String">
-        <constructor-arg value="SELECT * FROM movie"/>
+        <constructor-arg value="SELECT m.* FROM movie m "/>
     </bean>
 
     <bean id="getMovieByIdSQL" class="java.lang.String">

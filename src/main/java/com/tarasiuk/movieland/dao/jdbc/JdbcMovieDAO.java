@@ -1,8 +1,10 @@
 package com.tarasiuk.movieland.dao.jdbc;
 
 import java.util.List;
+
 import com.tarasiuk.movieland.dao.MovieDAO;
 import com.tarasiuk.movieland.dao.jdbc.mapper.MovieRowMapper;
+import com.tarasiuk.movieland.dto.MovieQueryDTO;
 import com.tarasiuk.movieland.entity.Movie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,25 +20,28 @@ public class JdbcMovieDAO implements MovieDAO {
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
+    private QueryShaper queryShaper;
+
+    @Autowired
     private String getMovieByIdSQL;
 
     @Autowired
     private String getAllMoviesSQL;
 
-    private String formOrderClause(String ratingOrder, String priceOrder) {
-        StringBuilder orderClause = new StringBuilder();
-        if (ratingOrder != null || priceOrder != null) {
-            orderClause.append(OrderClause.contains(ratingOrder)? ", rating " + ratingOrder : "");
-            orderClause.append(OrderClause.contains(priceOrder)? ", price " + priceOrder : "");
-        }
-        return (orderClause.length() > 0) ? orderClause.insert(0, " ORDER BY 'a'").toString() : "" ;
-    }
-
     @Override
     public List<Movie> getAll(String ratingOrder, String priceOrder) {
         log.info("Start query to get all movies from DB");
         long startTime = System.currentTimeMillis();
-        List<Movie> movieList = jdbcTemplate.query(getAllMoviesSQL + formOrderClause(ratingOrder, priceOrder),  new MovieRowMapper());
+        List<Movie> movieList = jdbcTemplate.query(getAllMoviesSQL + queryShaper.formOrderClause(ratingOrder, priceOrder), new MovieRowMapper());
+        log.info("Finish query to get all movies from DB. It took {} ms", System.currentTimeMillis() - startTime);
+        return movieList;
+    }
+
+    @Override
+    public List<Movie> getAll(MovieQueryDTO queryQuestion) {
+        log.info("Start query to get all movies from DB");
+        long startTime = System.currentTimeMillis();
+        List<Movie> movieList = jdbcTemplate.query(getAllMoviesSQL + queryShaper.formWhereClause(queryQuestion), new MovieRowMapper());
         log.info("Finish query to get all movies from DB. It took {} ms", System.currentTimeMillis() - startTime);
         return movieList;
     }

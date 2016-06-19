@@ -2,6 +2,7 @@ package com.tarasiuk.movieland.controller;
 
 import com.tarasiuk.movieland.dto.MovieAllDTO;
 import com.tarasiuk.movieland.dto.MovieByIdDTO;
+import com.tarasiuk.movieland.dto.MovieQueryDTO;
 import com.tarasiuk.movieland.entity.Movie;
 import com.tarasiuk.movieland.service.MovieService;
 
@@ -44,7 +45,7 @@ public class MovieController {
 
         List<Movie> listMovie = movieService.getAll(ratingOrder, priceOrder);
 
-        List<MovieAllDTO> movieListDTO = new ArrayList();
+        List<MovieAllDTO> movieListDTO = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
         for (Movie movie : listMovie) {
             MovieAllDTO movieAllDTO = modelMapper.map(movie, MovieAllDTO.class);
@@ -54,4 +55,19 @@ public class MovieController {
         log.info("All movies is received. It took {} ms", System.currentTimeMillis() - startTime);
         return movieListDTO;
     }
+
+    @RequestMapping(value = "/search", consumes = "application/json;charset=UTF-8", method = RequestMethod.POST)
+    @ResponseBody
+    public List<MovieAllDTO> getMovieWithQuery(@RequestBody MovieQueryDTO movieQueryDTO) {
+        System.out.println(movieQueryDTO);
+        List<Movie> listMovie = movieService.getAll(movieQueryDTO);
+        List<MovieAllDTO> movieListDTO = new ArrayList<>();
+        ModelMapper modelMapper = new ModelMapper();
+        for (Movie movie : listMovie) {
+            MovieAllDTO movieAllDTO = modelMapper.map(movie, MovieAllDTO.class);
+            movieListDTO.add(movieAllDTO);
+        }
+        return movieListDTO;
+    }
+
 }
