@@ -1,7 +1,5 @@
 package com.tarasiuk.movieland.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.List;
 
 public class Movie {

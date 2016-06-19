@@ -1,8 +1,5 @@
 package com.tarasiuk.movieland.entity;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class Review {
     private int id;
     private int movieid;
@@ -52,7 +49,6 @@ public class Review {
         this.user = user;
     }
 
-    @JsonGetter("review")
     public String getReview() {
         return review;
     }

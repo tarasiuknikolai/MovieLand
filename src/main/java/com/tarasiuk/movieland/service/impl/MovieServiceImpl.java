@@ -1,6 +1,7 @@
 package com.tarasiuk.movieland.service.impl;
 
 import com.tarasiuk.movieland.dao.MovieDAO;
+import com.tarasiuk.movieland.dto.MovieQueryDTO;
 import com.tarasiuk.movieland.entity.Movie;
 import com.tarasiuk.movieland.service.CountryService;
 import com.tarasiuk.movieland.service.GenreService;
@@ -73,6 +74,15 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Movie> getAll(String ratingOrder, String priceOrder) {
         List<Movie> movieList = movieDao.getAll(ratingOrder, priceOrder);
+        populateCountry(movieList);
+        populateGenre(movieList);
+        populateReview(movieList);
+        return movieList;
+    }
+
+    @Override
+    public List<Movie> getAll(MovieQueryDTO queryQuestion) {
+        List<Movie> movieList = movieDao.getAll(queryQuestion);
         populateCountry(movieList);
         populateGenre(movieList);
         populateReview(movieList);
