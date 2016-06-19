@@ -1,17 +1,18 @@
 package com.tarasiuk.movieland.service.impl;
 
+import com.tarasiuk.movieland.cache.CacheGenreServiceImpl;
 import com.tarasiuk.movieland.dao.MovieDAO;
 import com.tarasiuk.movieland.dto.MovieQueryDTO;
+import com.tarasiuk.movieland.entity.Genre;
 import com.tarasiuk.movieland.entity.Movie;
-import com.tarasiuk.movieland.service.CountryService;
-import com.tarasiuk.movieland.service.GenreService;
-import com.tarasiuk.movieland.service.MovieService;
+import com.tarasiuk.movieland.entity.MovieGenre;
+import com.tarasiuk.movieland.service.*;
 
-import com.tarasiuk.movieland.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,6 +29,12 @@ public class MovieServiceImpl implements MovieService {
     @Autowired
     private ReviewService reviewService;
 
+    @Autowired
+    private MovieGenreService movieGenreService;
+
+    @Autowired
+    private CacheGenreServiceImpl cacheGenreServiceImpl;
+
     @Value("${sql.review.limit:2}")
     private int limitCount;
 
@@ -43,7 +50,10 @@ public class MovieServiceImpl implements MovieService {
     }
 
     private void populateGenre(Movie movie) {
-        movie.setGenre(genreService.getAllForMovie(movie.getId()));
+        List<Genre> listGenre = new ArrayList<>();
+        for (MovieGenre movieGenre : movieGenreService.getAllForMovie(movie.getId()))
+            listGenre.add(cacheGenreServiceImpl.getById(movieGenre.getGenreId()));
+        movie.setGenre(listGenre);
     }
 
     private void populateGenre(List<Movie> movieList) {
