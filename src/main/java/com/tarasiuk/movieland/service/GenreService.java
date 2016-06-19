@@ -7,4 +7,6 @@ public interface GenreService {
 
     List<Genre> getAllForMovie(int movieId);
 
+    List<Genre> getAll();
+
 }

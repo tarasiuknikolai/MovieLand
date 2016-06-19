@@ -42,4 +42,6 @@ public class JdbcReviewDAO implements ReviewDAO {
         log.info("Finish query {} rows to get reviews for movie from DB. It took {} ms", limitCount, System.currentTimeMillis() - startTime);
         return reviewList;
     }
+
+
 }

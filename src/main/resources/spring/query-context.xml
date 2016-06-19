@@ -24,6 +24,14 @@
         <constructor-arg value="SELECT g.* FROM genre g JOIN movie_genre mg ON g.id = mg.genreid WHERE mg.movieid = ?"/>
     </bean>
 
+    <bean id="getAllMovieGenresForMovieSQL" class="java.lang.String">
+        <constructor-arg value="SELECT mg.* FROM movie_genre mg WHERE mg.movieid = ?"/>
+    </bean>
+
+    <bean id="getAllGenresForCache" class="java.lang.String">
+        <constructor-arg value="SELECT g.* FROM genre g"/>
+    </bean>
+
     <bean id="getAllCountriesForMovieSQL" class="java.lang.String">
         <constructor-arg value="SELECT c.* FROM country c JOIN movie_country mc ON c.id = mc.countryid WHERE mc.movieid = ?"/>
     </bean>
