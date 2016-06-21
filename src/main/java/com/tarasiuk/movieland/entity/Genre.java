@@ -1,5 +1,7 @@
 package com.tarasiuk.movieland.entity;
 
+import java.util.Objects;
+
 public class Genre {
 
     private int id;
@@ -28,4 +30,14 @@ public class Genre {
                 ", genre='" + genre + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Genre genre1 = (Genre) o;
+        return Objects.equals(id, genre1.id) &&
+                Objects.equals(genre, genre1.genre);
+    }
+
 }

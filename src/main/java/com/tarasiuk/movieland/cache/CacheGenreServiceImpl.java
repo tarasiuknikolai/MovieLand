@@ -19,7 +19,7 @@ public class CacheGenreServiceImpl implements InitializingBean {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private HashMapCacheService<Integer,Genre> cacheGenre;
+    private HashMapCacheService<Integer,Genre> cacheService;
 
     @Autowired
     private GenreService genreService;
@@ -27,9 +27,11 @@ public class CacheGenreServiceImpl implements InitializingBean {
     @Value("${cache.refreshPeriod:4}")
     private int refreshPeriod;
 
+    private TimeUnit refreshTimeUnit = TimeUnit.HOURS;
+
     private void fillCacheGenre() {
         log.info("Start warm-up the Cache for Genres");
-        cacheGenre.clear();
+        cacheService.clear();
         for (Genre genre : genreService.getAll()) {
             putValue(genre.getId(), genre);
         }
@@ -37,7 +39,7 @@ public class CacheGenreServiceImpl implements InitializingBean {
     }
 
     public Genre getById (int genreId) {
-        Genre genre = cacheGenre.get(genreId);
+        Genre genre = cacheService.get(genreId);
         if (genre == null) {
             genre = genreService.getById(genreId);
             putValue(genre.getId(), genre);
@@ -46,7 +48,7 @@ public class CacheGenreServiceImpl implements InitializingBean {
     }
 
     private void putValue(int genreId, Genre genre){
-        cacheGenre.put(genreId, genre);
+        cacheService.put(genreId, genre);
     }
 
     @Override
@@ -57,6 +59,22 @@ public class CacheGenreServiceImpl implements InitializingBean {
             public void run() {
                 fillCacheGenre();
             }
-        }, 0, refreshPeriod, TimeUnit.HOURS);
+        }, 0, refreshPeriod, refreshTimeUnit);
+    }
+
+    public void setCacheService(HashMapCacheService<Integer, Genre> cacheService) {
+        this.cacheService = cacheService;
+    }
+
+    public void setGenreService(GenreService genreService) {
+        this.genreService = genreService;
+    }
+
+    public void setRefreshPeriod(int refreshPeriod) {
+        this.refreshPeriod = refreshPeriod;
+    }
+
+    public void setRefreshTimeUnit(TimeUnit refreshTimeUnit) {
+        this.refreshTimeUnit = refreshTimeUnit;
     }
 }
