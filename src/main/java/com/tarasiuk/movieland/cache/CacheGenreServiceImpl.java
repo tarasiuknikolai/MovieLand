@@ -4,52 +4,59 @@ import com.tarasiuk.movieland.entity.Genre;
 import com.tarasiuk.movieland.service.GenreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Service
-public class CacheGenreServiceImpl implements CacheGenreService {
+public class CacheGenreServiceImpl implements InitializingBean {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    private final Map<Integer, Genre> cacheGenre = new ConcurrentHashMap<>();
-
-    private LocalDateTime lastRefreshDate;
-
-    @Value("${cache.refreshPeriod:4}")
-    private int refreshPeriod;
+    @Autowired
+    private HashMapCacheService<Integer,Genre> cacheGenre;
 
     @Autowired
     private GenreService genreService;
+
+    @Value("${cache.refreshPeriod:4}")
+    private int refreshPeriod;
 
     private void fillCacheGenre() {
         log.info("Start warm-up the Cache for Genres");
         cacheGenre.clear();
         for (Genre genre : genreService.getAll()) {
-            cacheGenre.put(genre.getId(), genre);
+            putValue(genre.getId(), genre);
         }
-        log.info("Stop warm-up the Cache for Genres");
+        log.info("Finish warm-up the Cache for Genres");
+    }
+
+    public Genre getById (int genreId) {
+        Genre genre = cacheGenre.get(genreId);
+        if (genre == null) {
+            genre = genreService.getById(genreId);
+            putValue(genre.getId(), genre);
+        }
+        return genre;
+    }
+
+    private void putValue(int genreId, Genre genre){
+        cacheGenre.put(genreId, genre);
     }
 
     @Override
-    public Genre getById(int genreId) {
-        log.info("Start get data from the Cache for Genres by ID");
-        if (lastRefreshDate == null || LocalDateTime.now().isAfter(lastRefreshDate.plusHours(refreshPeriod))) {
-            fillCacheGenre();
-            lastRefreshDate = LocalDateTime.now();
-        }
-        Genre genre = cacheGenre.get(genreId);
-        log.info("Stop get data from the Cache for Genres by ID");
-        if (genre != null)
-            return genre;
-        throw new RuntimeException("Genre with id =" + genreId + " is missed in the Genre cache");
+    public void afterPropertiesSet() throws Exception {
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+        executor.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                fillCacheGenre();
+            }
+        }, 0, refreshPeriod, TimeUnit.HOURS);
     }
-
 }

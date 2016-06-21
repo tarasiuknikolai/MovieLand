@@ -23,4 +23,8 @@ public class GenreServiceImpl implements GenreService {
         return genreDao.getAll();
     }
 
+    @Override
+    public Genre getById(int genreId) {
+        return genreDao.getById(genreId);
+    }
 }

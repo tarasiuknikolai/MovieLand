@@ -36,4 +36,8 @@
         <constructor-arg value="SELECT c.* FROM country c JOIN movie_country mc ON c.id = mc.countryid WHERE mc.movieid = ?"/>
     </bean>
 
+    <bean id="getGenreByIdSQL" class="java.lang.String">
+        <constructor-arg value="SELECT g.* FROM genre g WHERE g.id = ?"/>
+    </bean>
+
 </beans>

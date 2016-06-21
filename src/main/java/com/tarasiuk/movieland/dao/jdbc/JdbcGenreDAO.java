@@ -25,6 +25,9 @@ public class JdbcGenreDAO implements GenreDAO {
     @Autowired
     private String getAllGenresForCache;
 
+    @Autowired
+    private String getGenreByIdSQL;
+
     @Override
     public List<Genre> getAllForMovie(int movieId) {
         log.info("Start query to get all genres for movie from DB");
@@ -41,5 +44,14 @@ public class JdbcGenreDAO implements GenreDAO {
         List<Genre> genreList = jdbcTemplate.query(getAllGenresForCache, new GenreRowMapper());
         log.info("Finish query to get all genres for Cache from DB. It took {} ms", System.currentTimeMillis() - startTime);
         return genreList;
+    }
+
+    @Override
+    public Genre getById(int genreId) {
+        log.info("Start query to get genre by ID from DB");
+        long startTime = System.currentTimeMillis();
+        Genre genre = jdbcTemplate.queryForObject(getGenreByIdSQL, new Object[]{genreId}, genreRowMapper);
+        log.info("Finish query to get genre by ID from DB. It took {} ms", System.currentTimeMillis() - startTime);
+        return genre;
     }
 }
