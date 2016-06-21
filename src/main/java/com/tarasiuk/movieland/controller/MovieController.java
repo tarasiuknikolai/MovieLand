@@ -38,12 +38,17 @@ public class MovieController {
     @RequestMapping(value = "/movies", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
     @ResponseBody
     public List<MovieAllDTO> getAll(@RequestParam(value = "rating", required = false) String ratingOrder
-            , @RequestParam(value = "price", required = false) String priceOrder) {
+            , @RequestParam(value = "price", required = false) String priceOrder
+            , @RequestParam(value = "page", required = false) Integer pageNumber) {
 
         log.info("Sending request to get all movies");
         long startTime = System.currentTimeMillis();
-
-        List<Movie> listMovie = movieService.getAll(ratingOrder, priceOrder);
+        List<Movie> listMovie;
+        if (pageNumber != null) {
+            listMovie = movieService.getPage(pageNumber);
+        } else {
+            listMovie = movieService.getAll(ratingOrder, priceOrder);
+        }
 
         List<MovieAllDTO> movieListDTO = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();

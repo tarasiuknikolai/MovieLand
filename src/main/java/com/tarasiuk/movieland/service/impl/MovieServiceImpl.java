@@ -96,4 +96,12 @@ public class MovieServiceImpl implements MovieService {
         return movieList;
     }
 
+    @Override
+    public List<Movie> getPage(Integer pageNumber) {
+        List<Movie> movieList = movieDao.getPage(pageNumber);
+        populateCountry(movieList);
+        populateGenre(movieList);
+        populateReview(movieList);
+        return movieList;
+    }
 }

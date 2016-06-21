@@ -29,6 +29,9 @@ public class JdbcMovieDAO implements MovieDAO {
     @Autowired
     private String getAllMoviesSQL;
 
+    @Autowired
+    private String getPageMovieSQL;
+
     @Override
     public List<Movie> getAll(String ratingOrder, String priceOrder) {
         log.info("Start query to get all movies from DB");
@@ -55,5 +58,15 @@ public class JdbcMovieDAO implements MovieDAO {
         log.info("Finish query to get movie with id {} from DB. It took {} ms", id, System.currentTimeMillis() - startTime);
         return movie;
     }
+
+    @Override
+    public List<Movie> getPage (Integer pageNumber) {
+        log.info("Start query to get {} page with movies from DB", pageNumber);
+        long startTime = System.currentTimeMillis();
+        List<Movie> movieList = jdbcTemplate.query(getPageMovieSQL, new Object[]{pageNumber-1, pageNumber}, movieRowMapper);
+        log.info("Finish query to get {} page with movies from DB. It took {} ms", System.currentTimeMillis() - startTime);
+        return movieList;
+    }
+
 
 }

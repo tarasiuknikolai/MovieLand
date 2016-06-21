@@ -11,6 +11,8 @@ public interface MovieDAO {
 
     List<Movie> getAll(String ratingOrder, String priceOrder);
 
+    List<Movie> getPage(Integer pageNumber);
+
     Movie getById(int id);
 
 }
