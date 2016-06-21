@@ -24,9 +24,6 @@ public class MovieServiceImpl implements MovieService {
     private CountryService countryService;
 
     @Autowired
-    private GenreService genreService;
-
-    @Autowired
     private ReviewService reviewService;
 
     @Autowired

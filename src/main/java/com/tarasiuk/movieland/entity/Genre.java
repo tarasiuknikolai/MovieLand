@@ -40,4 +40,8 @@ public class Genre {
                 Objects.equals(genre, genre1.genre);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, genre);
+    }
 }
