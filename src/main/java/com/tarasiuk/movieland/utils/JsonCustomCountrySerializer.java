@@ -9,11 +9,13 @@ import com.tarasiuk.movieland.entity.Country;
 import java.io.IOException;
 import java.util.List;
 
-public class JsonCustomCountrySerializer  extends JsonSerializer<List<Country>> {
+public class JsonCustomCountrySerializer extends JsonSerializer<List<Country>> {
     @Override
-    public void serialize(List<Country> countries, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
+    public void serialize(List<Country> countryList, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
         jsonGenerator.writeStartArray();
-        for (Country c : countries) jsonGenerator.writeString(c.getCountry());
+        for (Country country : countryList) {
+            jsonGenerator.writeString(country.getCountry());
+        }
         jsonGenerator.writeEndArray();
     }
 }

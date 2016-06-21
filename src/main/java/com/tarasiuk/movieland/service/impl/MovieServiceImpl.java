@@ -2,7 +2,7 @@ package com.tarasiuk.movieland.service.impl;
 
 import com.tarasiuk.movieland.cache.CacheGenreServiceImpl;
 import com.tarasiuk.movieland.dao.MovieDAO;
-import com.tarasiuk.movieland.dto.MovieQueryDTO;
+import com.tarasiuk.movieland.dto.request.MovieQueryDTO;
 import com.tarasiuk.movieland.entity.Genre;
 import com.tarasiuk.movieland.entity.Movie;
 import com.tarasiuk.movieland.entity.MovieGenre;
@@ -44,8 +44,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     private void populateCountry(List<Movie> movieList) {
-        for (Movie m: movieList) {
-            populateCountry(m);
+        for (Movie movie : movieList) {
+            populateCountry(movie);
         }
     }
 
@@ -57,8 +57,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     private void populateGenre(List<Movie> movieList) {
-        for (Movie m: movieList) {
-            populateGenre(m);
+        for (Movie movie : movieList) {
+            populateGenre(movie);
         }
     }
 
@@ -67,8 +67,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     private void populateReview(List<Movie> movieList) {
-        for (Movie m: movieList) {
-            populateReview(m);
+        for (Movie movie : movieList) {
+            populateReview(movie);
         }
     }
 

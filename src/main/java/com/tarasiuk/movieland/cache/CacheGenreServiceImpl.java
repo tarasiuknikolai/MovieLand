@@ -49,7 +49,7 @@ public class CacheGenreServiceImpl implements CacheGenreService {
         log.info("Stop get data from the Cache for Genres by ID");
         if (genre != null)
             return genre;
-        else throw new RuntimeException("Genre with id =" + genreId + " is missed in the Genre cache");
+        throw new RuntimeException("Genre with id =" + genreId + " is missed in the Genre cache");
     }
 
 }

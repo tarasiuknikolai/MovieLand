@@ -11,9 +11,11 @@ import java.util.List;
 
 public class JsonCustomGenreSerializer extends JsonSerializer<List<Genre>> {
     @Override
-    public void serialize(List<Genre> genre, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
+    public void serialize(List<Genre> genreList, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
         jsonGenerator.writeStartArray();
-        for (Genre g : genre) jsonGenerator.writeString(g.getGenre());
+        for (Genre genre : genreList) {
+            jsonGenerator.writeString(genre.getGenre());
+        }
         jsonGenerator.writeEndArray();
     }
 }

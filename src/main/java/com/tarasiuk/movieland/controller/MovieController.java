@@ -2,7 +2,7 @@ package com.tarasiuk.movieland.controller;
 
 import com.tarasiuk.movieland.dto.MovieAllDTO;
 import com.tarasiuk.movieland.dto.MovieByIdDTO;
-import com.tarasiuk.movieland.dto.MovieQueryDTO;
+import com.tarasiuk.movieland.dto.request.MovieQueryDTO;
 import com.tarasiuk.movieland.entity.Movie;
 import com.tarasiuk.movieland.service.MovieService;
 
@@ -56,10 +56,9 @@ public class MovieController {
         return movieListDTO;
     }
 
-    @RequestMapping(value = "/search", consumes = "application/json;charset=UTF-8", method = RequestMethod.POST)
+    @RequestMapping(value = "/movie/search", consumes = "application/json;charset=UTF-8", method = RequestMethod.POST)
     @ResponseBody
-    public List<MovieAllDTO> getMovieWithQuery(@RequestBody MovieQueryDTO movieQueryDTO) {
-        System.out.println(movieQueryDTO);
+    public List<MovieAllDTO> search(@RequestBody MovieQueryDTO movieQueryDTO) {
         List<Movie> listMovie = movieService.getAll(movieQueryDTO);
         List<MovieAllDTO> movieListDTO = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();

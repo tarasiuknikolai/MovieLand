@@ -14,6 +14,7 @@ import java.util.List;
 @Repository
 public class JdbcGenreDAO implements GenreDAO {
     private final Logger log = LoggerFactory.getLogger(getClass());
+    private final GenreRowMapper genreRowMapper = new GenreRowMapper();
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -28,7 +29,7 @@ public class JdbcGenreDAO implements GenreDAO {
     public List<Genre> getAllForMovie(int movieId) {
         log.info("Start query to get all genres for movie from DB");
         long startTime = System.currentTimeMillis();
-        List<Genre> genreList = jdbcTemplate.query(getAllGenresForMovieSQL, new Object[]{movieId}, new GenreRowMapper());
+        List<Genre> genreList = jdbcTemplate.query(getAllGenresForMovieSQL, new Object[]{movieId}, genreRowMapper);
         log.info("Finish query to get all genres for movie from DB. It took {} ms", System.currentTimeMillis() - startTime);
         return genreList;
     }

@@ -1,6 +1,6 @@
 package com.tarasiuk.movieland.service;
 
-import com.tarasiuk.movieland.dto.MovieQueryDTO;
+import com.tarasiuk.movieland.dto.request.MovieQueryDTO;
 import com.tarasiuk.movieland.entity.Movie;
 import java.util.List;
 

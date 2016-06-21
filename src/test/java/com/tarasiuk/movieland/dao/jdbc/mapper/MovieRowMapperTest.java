@@ -1,6 +1,5 @@
-package com.tarasiuk.movieland.dao.mapper;
+package com.tarasiuk.movieland.dao.jdbc.mapper;
 
-import com.tarasiuk.movieland.dao.jdbc.mapper.MovieRowMapper;
 import com.tarasiuk.movieland.entity.Movie;
 import org.junit.Test;
 

@@ -4,9 +4,9 @@ public enum OrderClause {
     ASC,
     DESC;
 
-    public static boolean contains(String orderClause) {
-        for (OrderClause c : OrderClause.values()) {
-            if (c.name().equalsIgnoreCase(orderClause)) {
+    public static boolean contains(String orderClause4Check) {
+        for (OrderClause orderClause : OrderClause.values()) {
+            if (orderClause.name().equalsIgnoreCase(orderClause4Check)) {
                 return true;
             }
         }

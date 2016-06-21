@@ -1,4 +1,4 @@
-package com.tarasiuk.movieland.dto;
+package com.tarasiuk.movieland.dto.request;
 
 public class MovieQueryDTO {
     private String genre;

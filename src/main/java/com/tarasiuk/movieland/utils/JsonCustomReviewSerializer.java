@@ -11,10 +11,11 @@ import java.util.List;
 
 public class JsonCustomReviewSerializer extends JsonSerializer<List<Review>> {
     @Override
-    public void serialize(List<Review> reviews, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
+    public void serialize(List<Review> reviewList, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
         jsonGenerator.writeStartArray();
-        for (Review g : reviews) jsonGenerator.writeString(g.getReview());
+        for (Review review : reviewList) {
+            jsonGenerator.writeString(review.getReview());
+        }
         jsonGenerator.writeEndArray();
-
-   }
+    }
 }
