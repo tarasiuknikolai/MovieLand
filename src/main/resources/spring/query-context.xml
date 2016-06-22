@@ -40,9 +40,4 @@
         <constructor-arg value="SELECT g.* FROM genre g WHERE g.id = ?"/>
     </bean>
 
-    <bean id="getPageMovieSQL" class="java.lang.String">
-        <constructor-arg value="SELECT * FROM (SELECT (SELECT count(*) FROM movie m2 WHERE m1.id > m2.id) npp, m1.* FROM movie m1) WHERE npp between ?*5 and ?*5-1"/>
-    </bean>
-
-
 </beans>

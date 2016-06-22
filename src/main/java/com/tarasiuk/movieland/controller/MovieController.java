@@ -2,6 +2,7 @@ package com.tarasiuk.movieland.controller;
 
 import com.tarasiuk.movieland.dto.MovieAllDTO;
 import com.tarasiuk.movieland.dto.MovieByIdDTO;
+import com.tarasiuk.movieland.dto.request.MovieOrganizeOutputDTO;
 import com.tarasiuk.movieland.dto.request.MovieQueryDTO;
 import com.tarasiuk.movieland.entity.Movie;
 import com.tarasiuk.movieland.service.MovieService;
@@ -43,12 +44,14 @@ public class MovieController {
 
         log.info("Sending request to get all movies");
         long startTime = System.currentTimeMillis();
+
+        MovieOrganizeOutputDTO movieOrganizeOutputDTO = new MovieOrganizeOutputDTO();
+        movieOrganizeOutputDTO.setRatingOrder(ratingOrder);
+        movieOrganizeOutputDTO.setPriceOrder(priceOrder);
+        movieOrganizeOutputDTO.setPageNumber(pageNumber);
+
         List<Movie> listMovie;
-        if (pageNumber != null) {
-            listMovie = movieService.getPage(pageNumber);
-        } else {
-            listMovie = movieService.getAll(ratingOrder, priceOrder);
-        }
+        listMovie = movieService.getAll(movieOrganizeOutputDTO);
 
         List<MovieAllDTO> movieListDTO = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();

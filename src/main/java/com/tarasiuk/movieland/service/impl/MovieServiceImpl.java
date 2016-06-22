@@ -2,6 +2,7 @@ package com.tarasiuk.movieland.service.impl;
 
 import com.tarasiuk.movieland.cache.CacheGenreServiceImpl;
 import com.tarasiuk.movieland.dao.MovieDAO;
+import com.tarasiuk.movieland.dto.request.MovieOrganizeOutputDTO;
 import com.tarasiuk.movieland.dto.request.MovieQueryDTO;
 import com.tarasiuk.movieland.entity.Genre;
 import com.tarasiuk.movieland.entity.Movie;
@@ -34,6 +35,9 @@ public class MovieServiceImpl implements MovieService {
 
     @Value("${sql.review.limit:2}")
     private int limitCount;
+
+    @Value("${movie.pagesize:5}")
+    private int pageSize;
 
 
     private void populateCountry(Movie movie) {
@@ -79,15 +83,6 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getAll(String ratingOrder, String priceOrder) {
-        List<Movie> movieList = movieDao.getAll(ratingOrder, priceOrder);
-        populateCountry(movieList);
-        populateGenre(movieList);
-        populateReview(movieList);
-        return movieList;
-    }
-
-    @Override
     public List<Movie> getAll(MovieQueryDTO queryQuestion) {
         List<Movie> movieList = movieDao.getAll(queryQuestion);
         populateCountry(movieList);
@@ -97,11 +92,24 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getPage(Integer pageNumber) {
-        List<Movie> movieList = movieDao.getPage(pageNumber);
-        populateCountry(movieList);
-        populateGenre(movieList);
-        populateReview(movieList);
-        return movieList;
+    public List<Movie> getAll(MovieOrganizeOutputDTO movieOrganizeOutputDTO) {
+
+        List<Movie> movieListAll = movieDao.getAll(movieOrganizeOutputDTO.getRatingOrder(), movieOrganizeOutputDTO.getPriceOrder());
+        populateCountry(movieListAll);
+        populateGenre(movieListAll);
+        populateReview(movieListAll);
+
+        if (movieOrganizeOutputDTO.getPageNumber() != null) {
+            List<Movie> movieList = new ArrayList<>();
+            for (int i = 0; i < movieListAll.size(); i++) {
+                int left = (movieOrganizeOutputDTO.getPageNumber() - 1) * pageSize;
+                int right = movieOrganizeOutputDTO.getPageNumber() * pageSize - 1;
+                if (i >= left & i <= right) {
+                    movieList.add(movieListAll.get(i));
+                }
+            }
+            return movieList;
+        }
+        return movieListAll;
     }
 }
