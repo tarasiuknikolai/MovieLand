@@ -40,4 +40,8 @@
         <constructor-arg value="SELECT g.* FROM genre g WHERE g.id = ?"/>
     </bean>
 
+    <bean id="getUserSQL" class="java.lang.String">
+        <constructor-arg value="SELECT u.* FROM users u WHERE u.email = ? AND u.password = ?"/>
+    </bean>
+
 </beans>

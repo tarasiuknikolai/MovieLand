@@ -25,4 +25,9 @@ public class HashMapCache<K, V> implements Cache<K, V> {
     public void clear() {
         cacheGenre.clear();
     }
+
+    @Override
+    public void remove(K key) {
+        cacheGenre.remove(key);
+    }
 }
