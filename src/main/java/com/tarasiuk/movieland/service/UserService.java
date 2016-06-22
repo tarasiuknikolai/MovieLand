@@ -1,8 +1,8 @@
-package com.tarasiuk.movieland.dao;
+package com.tarasiuk.movieland.service;
 
 import com.tarasiuk.movieland.entity.User;
 
-public interface UserDAO {
+public interface UserService {
 
     User getUserByCredentials(String email, String password);
 

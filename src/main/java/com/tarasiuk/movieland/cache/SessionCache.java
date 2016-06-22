@@ -2,17 +2,11 @@ package com.tarasiuk.movieland.cache;
 
 import com.tarasiuk.movieland.dto.request.AuthRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.AbstractMap;
-
 @Service
 public class SessionCache {
-
-    @Value("${session.timeout:2}")
-    private int sessionTimeout;
 
     @Autowired
     ArrayListCache<String, AuthRequestDTO> sessionCache;
