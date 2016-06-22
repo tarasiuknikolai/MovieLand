@@ -4,11 +4,13 @@ import java.util.List;
 
 import com.tarasiuk.movieland.dao.MovieDAO;
 import com.tarasiuk.movieland.dao.jdbc.mapper.MovieRowMapper;
-import com.tarasiuk.movieland.dto.request.MovieQueryDTO;
+import com.tarasiuk.movieland.dto.request.GetMovieRequestDTO;
+import com.tarasiuk.movieland.dto.request.SearchMovieRequestDTO;
 import com.tarasiuk.movieland.entity.Movie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -29,21 +31,15 @@ public class JdbcMovieDAO implements MovieDAO {
     @Autowired
     private String getAllMoviesSQL;
 
-    @Override
-    public List<Movie> getAll(String ratingOrder, String priceOrder) {
-        log.info("Start query to get all movies from DB");
-        long startTime = System.currentTimeMillis();
-        List<Movie> movieList = jdbcTemplate.query(queryShaper.formOrderClause(getAllMoviesSQL, ratingOrder, priceOrder), movieRowMapper);
-        log.info("Finish query to get all movies from DB. It took {} ms", System.currentTimeMillis() - startTime);
-        return movieList;
-    }
+    @Value("${movie.pagesize:5}")
+    private int pageSize;
 
     @Override
-    public List<Movie> getAll(MovieQueryDTO queryQuestion) {
-        log.info("Start query to get all movies from DB");
+    public List<Movie> getAll(SearchMovieRequestDTO queryQuestion) {
+        log.info("Start query with conditions to get movies from DB");
         long startTime = System.currentTimeMillis();
         List<Movie> movieList = jdbcTemplate.query(queryShaper.formWhereClause(getAllMoviesSQL, queryQuestion), movieRowMapper);
-        log.info("Finish query to get all movies from DB. It took {} ms", System.currentTimeMillis() - startTime);
+        log.info("Finish query with conditions to get movies from DB. It took {} ms", System.currentTimeMillis() - startTime);
         return movieList;
     }
 
@@ -54,6 +50,15 @@ public class JdbcMovieDAO implements MovieDAO {
         Movie movie = jdbcTemplate.queryForObject(getMovieByIdSQL, new Object[]{id}, movieRowMapper);
         log.info("Finish query to get movie with id {} from DB. It took {} ms", id, System.currentTimeMillis() - startTime);
         return movie;
+    }
+
+    @Override
+    public List<Movie> getAll(GetMovieRequestDTO getMovieRequestDTO) {
+        log.info("Start query to get movies from DB");
+        long startTime = System.currentTimeMillis();
+        List<Movie> movieList = jdbcTemplate.query(queryShaper.formOrderClause(getAllMoviesSQL, getMovieRequestDTO, pageSize), movieRowMapper);
+        log.info("Finish query to get movies from DB. It took {} ms", System.currentTimeMillis() - startTime);
+        return movieList;
     }
 
 }

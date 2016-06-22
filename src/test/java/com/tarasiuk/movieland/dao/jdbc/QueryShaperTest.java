@@ -1,6 +1,6 @@
 package com.tarasiuk.movieland.dao.jdbc;
 
-import com.tarasiuk.movieland.dto.request.MovieQueryDTO;
+import com.tarasiuk.movieland.dto.request.SearchMovieRequestDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class QueryShaperTest {
 
     @Test
     public void testFormWhereClause() {
-        MovieQueryDTO queryQuestion = new MovieQueryDTO();
+        SearchMovieRequestDTO queryQuestion = new SearchMovieRequestDTO();
         assertEquals(queryShaper.formWhereClause(getAllMoviesSQL, queryQuestion), getAllMoviesSQL + " WHERE 1=1");
         queryQuestion.setGenre("GeNrE");
         queryQuestion.setNameRus("NameRUS");

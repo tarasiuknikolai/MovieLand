@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 @Service
-public class HashMapCacheService<K, V> implements CacheService<K, V> {
+public class HashMapCache<K, V> implements Cache<K, V> {
 
     private final Map<K, V> cacheGenre = Collections.synchronizedMap(new WeakHashMap<>());
 

@@ -1,6 +1,6 @@
 package com.tarasiuk.movieland.dto.request;
 
-public class MovieQueryDTO {
+public class SearchMovieRequestDTO {
     private String genre;
     private String nameRus;
     private String nameOrigin;
@@ -49,7 +49,7 @@ public class MovieQueryDTO {
 
     @Override
     public String toString() {
-        return "MovieQueryDTO{" +
+        return "SearchMovieRequestDTO{" +
                 "genre='" + genre + '\'' +
                 ", nameRus='" + nameRus + '\'' +
                 ", nameOrigin='" + nameOrigin + '\'' +

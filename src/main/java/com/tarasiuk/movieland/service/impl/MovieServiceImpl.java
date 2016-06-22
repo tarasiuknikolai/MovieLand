@@ -1,19 +1,15 @@
 package com.tarasiuk.movieland.service.impl;
 
-import com.tarasiuk.movieland.cache.CacheGenreServiceImpl;
 import com.tarasiuk.movieland.dao.MovieDAO;
-import com.tarasiuk.movieland.dto.request.MovieOrganizeOutputDTO;
-import com.tarasiuk.movieland.dto.request.MovieQueryDTO;
-import com.tarasiuk.movieland.entity.Genre;
+import com.tarasiuk.movieland.dto.request.GetMovieRequestDTO;
+import com.tarasiuk.movieland.dto.request.SearchMovieRequestDTO;
 import com.tarasiuk.movieland.entity.Movie;
-import com.tarasiuk.movieland.entity.MovieGenre;
 import com.tarasiuk.movieland.service.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,17 +24,10 @@ public class MovieServiceImpl implements MovieService {
     private ReviewService reviewService;
 
     @Autowired
-    private MovieGenreService movieGenreService;
-
-    @Autowired
-    private CacheGenreServiceImpl cacheGenreServiceImpl;
+    private GenreService genreService;
 
     @Value("${sql.review.limit:2}")
     private int limitCount;
-
-    @Value("${movie.pagesize:5}")
-    private int pageSize;
-
 
     private void populateCountry(Movie movie) {
         movie.setCountry(countryService.getAllForMovie(movie.getId()));
@@ -51,10 +40,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     private void populateGenre(Movie movie) {
-        List<Genre> listGenre = new ArrayList<>();
-        for (MovieGenre movieGenre : movieGenreService.getAllForMovie(movie.getId()))
-            listGenre.add(cacheGenreServiceImpl.getById(movieGenre.getGenreId()));
-        movie.setGenre(listGenre);
+        movie.setGenre(genreService.getAllForMovie(movie.getId()));
     }
 
     private void populateGenre(List<Movie> movieList) {
@@ -83,7 +69,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getAll(MovieQueryDTO queryQuestion) {
+    public List<Movie> getAll(SearchMovieRequestDTO queryQuestion) {
         List<Movie> movieList = movieDao.getAll(queryQuestion);
         populateCountry(movieList);
         populateGenre(movieList);
@@ -92,24 +78,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getAll(MovieOrganizeOutputDTO movieOrganizeOutputDTO) {
-
-        List<Movie> movieListAll = movieDao.getAll(movieOrganizeOutputDTO.getRatingOrder(), movieOrganizeOutputDTO.getPriceOrder());
-        populateCountry(movieListAll);
-        populateGenre(movieListAll);
-        populateReview(movieListAll);
-
-        if (movieOrganizeOutputDTO.getPageNumber() != null) {
-            List<Movie> movieList = new ArrayList<>();
-            for (int i = 0; i < movieListAll.size(); i++) {
-                int left = (movieOrganizeOutputDTO.getPageNumber() - 1) * pageSize;
-                int right = movieOrganizeOutputDTO.getPageNumber() * pageSize - 1;
-                if (i >= left & i <= right) {
-                    movieList.add(movieListAll.get(i));
-                }
-            }
-            return movieList;
-        }
-        return movieListAll;
+    public List<Movie> getAll(GetMovieRequestDTO getMovieRequestDTO) {
+        List<Movie> movieList = movieDao.getAll(getMovieRequestDTO);
+        populateCountry(movieList);
+        populateGenre(movieList);
+        populateReview(movieList);
+        return movieList;
     }
 }

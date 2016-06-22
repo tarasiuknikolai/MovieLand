@@ -14,12 +14,12 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class CacheGenreServiceImpl implements InitializingBean {
+public class GenreCache implements InitializingBean {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private HashMapCacheService<Integer,Genre> cacheService;
+    private HashMapCache<Integer,Genre> cache;
 
     @Autowired
     private GenreService genreService;
@@ -31,7 +31,7 @@ public class CacheGenreServiceImpl implements InitializingBean {
 
     private void fillCacheGenre() {
         log.info("Start warm-up the Cache for Genres");
-        cacheService.clear();
+        cache.clear();
         for (Genre genre : genreService.getAll()) {
             putValue(genre.getId(), genre);
         }
@@ -39,7 +39,7 @@ public class CacheGenreServiceImpl implements InitializingBean {
     }
 
     public Genre getById (int genreId) {
-        Genre genre = cacheService.get(genreId);
+        Genre genre = cache.get(genreId);
         if (genre == null) {
             genre = genreService.getById(genreId);
             putValue(genre.getId(), genre);
@@ -48,7 +48,7 @@ public class CacheGenreServiceImpl implements InitializingBean {
     }
 
     private void putValue(int genreId, Genre genre){
-        cacheService.put(genreId, genre);
+        cache.put(genreId, genre);
     }
 
     @Override
@@ -62,8 +62,8 @@ public class CacheGenreServiceImpl implements InitializingBean {
         }, 0, refreshPeriod, refreshTimeUnit);
     }
 
-    public void setCacheService(HashMapCacheService<Integer, Genre> cacheService) {
-        this.cacheService = cacheService;
+    public void setCache(HashMapCache<Integer, Genre> cache) {
+        this.cache = cache;
     }
 
     public void setGenreService(GenreService genreService) {

@@ -1,6 +1,6 @@
 package com.tarasiuk.movieland.cache;
 
-public interface CacheService<K, V> {
+public interface Cache<K, V> {
 
     void put(K key, V value);
 

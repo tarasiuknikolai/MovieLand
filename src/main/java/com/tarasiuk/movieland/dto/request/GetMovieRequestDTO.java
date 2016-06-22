@@ -1,6 +1,6 @@
 package com.tarasiuk.movieland.dto.request;
 
-public class MovieOrganizeOutputDTO {
+public class GetMovieRequestDTO {
 
     private String ratingOrder;
     private String priceOrder;
@@ -32,7 +32,7 @@ public class MovieOrganizeOutputDTO {
 
     @Override
     public String toString() {
-        return "MovieOrganizeOutputDTO{" +
+        return "GetMovieRequestDTO{" +
                 "ratingOrder='" + ratingOrder + '\'' +
                 ", priceOrder='" + priceOrder + '\'' +
                 ", pageNumber=" + pageNumber +

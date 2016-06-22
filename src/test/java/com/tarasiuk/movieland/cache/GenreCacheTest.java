@@ -5,7 +5,6 @@ import com.tarasiuk.movieland.service.GenreService;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
-public class CacheGenreServiceImplTest {
+public class GenreCacheTest {
 
     private class StubGenreService implements GenreService {
 
@@ -37,12 +36,12 @@ public class CacheGenreServiceImplTest {
 
     @Test
     public void test() throws Exception {
-        HashMapCacheService<Integer, Genre> cacheService = new HashMapCacheService<>();
+        HashMapCache<Integer, Genre> cacheService = new HashMapCache<>();
         cacheService.put(1,new Genre());
-        CacheGenreServiceImpl cacheGenreService = new CacheGenreServiceImpl();
+        GenreCache cacheGenreService = new GenreCache();
         cacheGenreService.setRefreshPeriod(10);
         cacheGenreService.setRefreshTimeUnit(TimeUnit.SECONDS);
-        cacheGenreService.setCacheService(cacheService);
+        cacheGenreService.setCache(cacheService);
         cacheGenreService.setGenreService(new StubGenreService());
         cacheGenreService.afterPropertiesSet();
 

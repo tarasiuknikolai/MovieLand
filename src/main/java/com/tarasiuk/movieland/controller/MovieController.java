@@ -2,8 +2,8 @@ package com.tarasiuk.movieland.controller;
 
 import com.tarasiuk.movieland.dto.MovieAllDTO;
 import com.tarasiuk.movieland.dto.MovieByIdDTO;
-import com.tarasiuk.movieland.dto.request.MovieOrganizeOutputDTO;
-import com.tarasiuk.movieland.dto.request.MovieQueryDTO;
+import com.tarasiuk.movieland.dto.request.GetMovieRequestDTO;
+import com.tarasiuk.movieland.dto.request.SearchMovieRequestDTO;
 import com.tarasiuk.movieland.entity.Movie;
 import com.tarasiuk.movieland.service.MovieService;
 
@@ -45,13 +45,12 @@ public class MovieController {
         log.info("Sending request to get all movies");
         long startTime = System.currentTimeMillis();
 
-        MovieOrganizeOutputDTO movieOrganizeOutputDTO = new MovieOrganizeOutputDTO();
-        movieOrganizeOutputDTO.setRatingOrder(ratingOrder);
-        movieOrganizeOutputDTO.setPriceOrder(priceOrder);
-        movieOrganizeOutputDTO.setPageNumber(pageNumber);
+        GetMovieRequestDTO getMovieRequestDTO = new GetMovieRequestDTO();
+        getMovieRequestDTO.setRatingOrder(ratingOrder);
+        getMovieRequestDTO.setPriceOrder(priceOrder);
+        getMovieRequestDTO.setPageNumber(pageNumber);
 
-        List<Movie> listMovie;
-        listMovie = movieService.getAll(movieOrganizeOutputDTO);
+        List<Movie> listMovie = movieService.getAll(getMovieRequestDTO);
 
         List<MovieAllDTO> movieListDTO = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
@@ -66,8 +65,8 @@ public class MovieController {
 
     @RequestMapping(value = "/movie/search", consumes = "application/json;charset=UTF-8", method = RequestMethod.POST)
     @ResponseBody
-    public List<MovieAllDTO> search(@RequestBody MovieQueryDTO movieQueryDTO) {
-        List<Movie> listMovie = movieService.getAll(movieQueryDTO);
+    public List<MovieAllDTO> search(@RequestBody SearchMovieRequestDTO searchMovieRequestDTO) {
+        List<Movie> listMovie = movieService.getAll(searchMovieRequestDTO);
         List<MovieAllDTO> movieListDTO = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
         for (Movie movie : listMovie) {
