@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class SessionCache2 {
@@ -22,18 +19,16 @@ public class SessionCache2 {
 
     private final List<AuthRequestDTO> cacheList = Collections.synchronizedList(new ArrayList<>());
 
-    public AuthRequestDTO checkCredentials(AuthRequestDTO authRequestDTO) {
-        try {
-            int userId=userService.getUserByCredentials(authRequestDTO.getLogin(),authRequestDTO.getPassword()).getId();
-            if (userId != 0) {
-                authRequestDTO.setUserId(userId);
-                cacheList.add(authRequestDTO);
-                return authRequestDTO;
-            }
-        } catch (Exception e) {
-            return null;
-        }
-        return null;
+    public int checkCredentials(AuthRequestDTO authRequestDTO) {
+        return userService.getUserByCredentials(authRequestDTO.getLogin(), authRequestDTO.getPassword()).getId();
+    }
+
+    public void putUser (AuthRequestDTO authRequestDTO, int userId) {
+        authRequestDTO.setUserId(userId);
+        authRequestDTO.setPassword(null);
+        authRequestDTO.setToken(UUID.randomUUID().toString());
+        authRequestDTO.setLoginTimestamp(System.currentTimeMillis());
+        cacheList.add(authRequestDTO);
     }
 
     public User getUserByToken (String token) {
