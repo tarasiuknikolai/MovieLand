@@ -5,12 +5,20 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public class AuthRequestDTO {
     @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
     private String login;
+
     @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
     private String password;
+
     @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
     private String token;
-    private int userId;
-    private long loginTimestamp;
+
+    @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+    private Integer userId;
+
+    @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+    private Long loginTimestamp;
+
+    @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
     private String message;
 
     public String getLogin() {
@@ -37,19 +45,19 @@ public class AuthRequestDTO {
         this.token = token;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    public long getLoginTimestamp() {
+    public Long getLoginTimestamp() {
         return loginTimestamp;
     }
 
-    public void setLoginTimestamp(long loginTimestamp) {
+    public void setLoginTimestamp(Long loginTimestamp) {
         this.loginTimestamp = loginTimestamp;
     }
 
@@ -64,12 +72,12 @@ public class AuthRequestDTO {
     @Override
     public String toString() {
         return "AuthRequestDTO{" +
-                "login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", token='" + token + '\'' +
-                ", userId=" + userId +
+                "message='" + message + '\'' +
                 ", loginTimestamp=" + loginTimestamp +
-                ", message='" + message + '\'' +
+                ", userId=" + userId +
+                ", token='" + token + '\'' +
+                ", password='" + password + '\'' +
+                ", login='" + login + '\'' +
                 '}';
     }
 }

@@ -1,6 +1,5 @@
 package com.tarasiuk.movieland.controller;
 
-import com.tarasiuk.movieland.cache.SessionCache2;
 import com.tarasiuk.movieland.dto.request.AuthRequestDTO;
 import com.tarasiuk.movieland.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.UUID;
+import com.tarasiuk.movieland.service.exceptions.SecurityException;
 
 @Controller
 public class SecurityController {
@@ -23,12 +21,10 @@ public class SecurityController {
     @RequestMapping(value = "/v1/auth", consumes = "application/json;charset=UTF-8", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> authentication (@RequestBody AuthRequestDTO authRequestDTO) {
-        System.out.println(authRequestDTO);
         try {
             securityService.authUser(authRequestDTO);
-            System.out.println(authRequestDTO);
-        } catch (Exception e) {
-            authRequestDTO.setMessage("Wrong user/password");
+        } catch (SecurityException e) {
+            authRequestDTO.setMessage(e.getMessage());
             return new ResponseEntity<>(authRequestDTO, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(authRequestDTO,HttpStatus.OK);
