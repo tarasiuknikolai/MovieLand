@@ -1,11 +1,17 @@
 package com.tarasiuk.movieland.service.impl;
 
 import com.tarasiuk.movieland.dao.MovieDAO;
+import com.tarasiuk.movieland.dto.request.AddMovieRequest;
+import com.tarasiuk.movieland.dto.request.EditMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.GetMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.SearchMovieRequestDTO;
 import com.tarasiuk.movieland.entity.Movie;
-import com.tarasiuk.movieland.service.*;
 
+import com.tarasiuk.movieland.service.CountryService;
+import com.tarasiuk.movieland.service.GenreService;
+import com.tarasiuk.movieland.service.MovieService;
+import com.tarasiuk.movieland.service.ReviewService;
+import com.tarasiuk.movieland.service.exceptions.RestrictAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -84,5 +90,25 @@ public class MovieServiceImpl implements MovieService {
         populateGenre(movieList);
         populateReview(movieList);
         return movieList;
+    }
+
+    @Override
+    public void addMovieRequest(AddMovieRequest addMovieRequest) throws RestrictAccessException {
+
+    }
+
+    @Override
+    public void editMovieRequest(EditMovieRequestDTO editMovieRequestDTO) throws RestrictAccessException {
+
+    }
+
+    @Override
+    public void markMovieForRemovingRequest(int movieID) throws RestrictAccessException  {
+
+    }
+
+    @Override
+    public void unmarkMovieForRemovingRequest(int movieID) throws RestrictAccessException  {
+
     }
 }
