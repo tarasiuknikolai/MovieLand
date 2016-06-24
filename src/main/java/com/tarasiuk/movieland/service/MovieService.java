@@ -1,6 +1,6 @@
 package com.tarasiuk.movieland.service;
 
-import com.tarasiuk.movieland.dto.request.AddMovieRequest;
+import com.tarasiuk.movieland.dto.request.AddMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.EditMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.GetMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.SearchMovieRequestDTO;
@@ -17,7 +17,7 @@ public interface MovieService {
 
     Movie getById(int id);
 
-    void addMovieRequest(AddMovieRequest addMovieRequest) throws RestrictAccessException;
+    void addMovieRequest(AddMovieRequestDTO addMovieRequestDTO) throws RestrictAccessException;
 
     void editMovieRequest(EditMovieRequestDTO editMovieRequestDTO) throws RestrictAccessException;
 

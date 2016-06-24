@@ -1,7 +1,7 @@
 package com.tarasiuk.movieland.service.impl;
 
 import com.tarasiuk.movieland.dao.MovieDAO;
-import com.tarasiuk.movieland.dto.request.AddMovieRequest;
+import com.tarasiuk.movieland.dto.request.AddMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.EditMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.GetMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.SearchMovieRequestDTO;
@@ -93,7 +93,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void addMovieRequest(AddMovieRequest addMovieRequest) throws RestrictAccessException {
+    public void addMovieRequest(AddMovieRequestDTO addMovieRequestDTO) throws RestrictAccessException {
 
     }
 
