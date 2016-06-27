@@ -42,5 +42,15 @@ public class JdbcReviewDAO implements ReviewDAO {
         return reviewList;
     }
 
+    @Override
+    public void addReview(Review review) {
+        jdbcTemplate.update("insert into review(movieid,userid,review) values (?,?,?)",review.getMovieid(), review.getUserid(), review.getReview());
+//        jdbcTemplate.update("insert into review(movieid,userid,review) values (1,1,'WWTTFF')");
+    }
+
+    @Override
+    public void deleteReview(Integer reviewId) {
+        jdbcTemplate.update("delete from review where id = ?", reviewId);
+    }
 
 }

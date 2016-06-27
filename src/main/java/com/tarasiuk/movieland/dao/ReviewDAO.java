@@ -9,4 +9,7 @@ public interface ReviewDAO {
 
     List<Review> getLimitedForMovie (int movieId, int limitCount);
 
+    void addReview (Review review);
+
+    void deleteReview (Integer reviewId);
 }
