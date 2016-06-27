@@ -2,6 +2,7 @@ package com.tarasiuk.movieland.controller;
 
 import com.tarasiuk.movieland.dto.MovieAllDTO;
 import com.tarasiuk.movieland.dto.MovieByIdDTO;
+import com.tarasiuk.movieland.dto.MoviesListDTO;
 import com.tarasiuk.movieland.dto.request.GetMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.SearchMovieRequestDTO;
 import com.tarasiuk.movieland.entity.Movie;
@@ -25,7 +26,7 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
-    @RequestMapping(value = "/movie/{movieId}", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
+    @RequestMapping(value = "/movie/{movieId}", method = RequestMethod.GET)
     @ResponseBody
     public MovieByIdDTO getMovieById(@PathVariable int movieId) {
         log.info("Sending request to get movie with id = {}", movieId);
@@ -36,9 +37,9 @@ public class MovieController {
         return movieByIdDTO;
     }
 
-    @RequestMapping(value = "/movies", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
+    @RequestMapping(value = "/movies", method = RequestMethod.GET)
     @ResponseBody
-    public List<MovieAllDTO> getAll(@RequestParam(value = "rating", required = false) String ratingOrder
+    public MoviesListDTO getAll(@RequestParam(value = "rating", required = false) String ratingOrder
             , @RequestParam(value = "price", required = false) String priceOrder
             , @RequestParam(value = "page", required = false) Integer pageNumber) {
 
@@ -58,12 +59,14 @@ public class MovieController {
             MovieAllDTO movieAllDTO = modelMapper.map(movie, MovieAllDTO.class);
             movieListDTO.add(movieAllDTO);
         }
+        MoviesListDTO moviesListDTO = new MoviesListDTO();
+        moviesListDTO.setMovies(movieListDTO);
 
         log.info("All movies is received. It took {} ms", System.currentTimeMillis() - startTime);
-        return movieListDTO;
+        return moviesListDTO;
     }
 
-    @RequestMapping(value = "/movie/search", consumes = "application/json;charset=UTF-8", method = RequestMethod.POST)
+    @RequestMapping(value = "/movie/search", method = RequestMethod.POST)
     @ResponseBody
     public List<MovieAllDTO> search(@RequestBody SearchMovieRequestDTO searchMovieRequestDTO) {
         List<Movie> listMovie = movieService.getAll(searchMovieRequestDTO);

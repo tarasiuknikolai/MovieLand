@@ -3,6 +3,7 @@ package com.tarasiuk.movieland.dto;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.tarasiuk.movieland.entity.Genre;
 import com.tarasiuk.movieland.utils.JsonCustomGenreSerializer;
 
@@ -14,6 +15,7 @@ public class MovieAllDTO {
     private double rating;
 
     @JsonSerialize(using = JsonCustomGenreSerializer.class)
+    @JacksonXmlElementWrapper(localName = "genres")
     private List<Genre> genre;
 
     public String getNameRus() {
