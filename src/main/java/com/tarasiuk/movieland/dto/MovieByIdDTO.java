@@ -1,28 +1,34 @@
 package com.tarasiuk.movieland.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.tarasiuk.movieland.entity.Country;
 import com.tarasiuk.movieland.entity.Genre;
 import com.tarasiuk.movieland.entity.Review;
 import com.tarasiuk.movieland.utils.JsonCustomReviewSerializer;
 import com.tarasiuk.movieland.utils.JsonCustomCountrySerializer;
 import com.tarasiuk.movieland.utils.JsonCustomGenreSerializer;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 
 import java.util.List;
 
+@JacksonXmlRootElement(localName = "movie")
 public class MovieByIdDTO {
     private String nameRus;
     private String nameOrigin;
     private int year;
 
     @JsonSerialize(using = JsonCustomCountrySerializer.class)
+    @JacksonXmlElementWrapper(localName = "countries")
     private List<Country> country;
 
     @JsonSerialize(using = JsonCustomGenreSerializer.class)
+    @JacksonXmlElementWrapper(localName = "genres")
     private List<Genre> genre;
     private String description;
 
     @JsonSerialize(using = JsonCustomReviewSerializer.class)
+    @JacksonXmlElementWrapper(localName = "reviews")
     private List<Review> review;
     private double rating;
 
