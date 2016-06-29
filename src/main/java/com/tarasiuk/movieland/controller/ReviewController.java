@@ -4,15 +4,15 @@ import com.tarasiuk.movieland.dto.SimpleResponseDTO;
 import com.tarasiuk.movieland.dto.request.AddReviewRequestDTO;
 import com.tarasiuk.movieland.service.ReviewService;
 import com.tarasiuk.movieland.service.exceptions.RestrictAccessException;
+import com.tarasiuk.movieland.utils.AllowedRoles;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/v1")
@@ -22,28 +22,45 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
+    @AllowedRoles(roles = {"USER", "ADMIN"})
     @RequestMapping(value = "/review", method = RequestMethod.POST)
     @ResponseBody
-    public SimpleResponseDTO putReview(@RequestBody AddReviewRequestDTO addReviewRequestDTO) throws RestrictAccessException {
-        log.info("");
+    public ResponseEntity<?> putReview(@RequestBody AddReviewRequestDTO addReviewRequestDTO,
+                                       @RequestHeader(value = "authToken") String token) throws RestrictAccessException {
+        log.info("Attempt to add new review");
         long startTime = System.currentTimeMillis();
-        reviewService.addReviewRequest(addReviewRequestDTO);
-        log.info("It took {} ms", System.currentTimeMillis() - startTime);
+        try {
+            reviewService.addReviewRequest(addReviewRequestDTO);
+            log.info("Review was added. It took {} ms", System.currentTimeMillis() - startTime);
+        } catch (RestrictAccessException e) {
+            SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO();
+            simpleResponseDTO.setMessage(e.getMessage());
+            return new ResponseEntity<>(simpleResponseDTO, HttpStatus.BAD_REQUEST);
+        }
         SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO();
         simpleResponseDTO.setMessage("OK");
-        return simpleResponseDTO;
+        return new ResponseEntity<>(simpleResponseDTO, HttpStatus.OK);
+
     }
 
+    @AllowedRoles(roles = {"USER", "ADMIN"})
     @RequestMapping(value = "/review", method = RequestMethod.DELETE)
     @ResponseBody
-    public SimpleResponseDTO deleteReview(@RequestBody AddReviewRequestDTO addReviewRequestDTO) throws RestrictAccessException  {
-        log.info("");
+    public ResponseEntity<?> deleteReview(@RequestBody AddReviewRequestDTO addReviewRequestDTO,
+                                          @RequestHeader(value = "authToken") String token) throws RestrictAccessException {
+        log.info("Attempt to delete review");
         long startTime = System.currentTimeMillis();
-        reviewService.removeReviewRequest(addReviewRequestDTO.getId());
-        log.info("It took {} ms", System.currentTimeMillis() - startTime);
+        try {
+            reviewService.removeReviewRequest(addReviewRequestDTO.getId());
+            log.info("Review was deleted. It took {} ms", System.currentTimeMillis() - startTime);
+        } catch (RestrictAccessException e) {
+            SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO();
+            simpleResponseDTO.setMessage(e.getMessage());
+            return new ResponseEntity<>(simpleResponseDTO, HttpStatus.BAD_REQUEST);
+        }
         SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO();
         simpleResponseDTO.setMessage("OK");
-        return simpleResponseDTO;
+        return new ResponseEntity<>(simpleResponseDTO, HttpStatus.OK);
     }
 
 }
