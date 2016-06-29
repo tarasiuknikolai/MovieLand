@@ -5,7 +5,6 @@ import com.tarasiuk.movieland.dto.request.AddReviewRequestDTO;
 import com.tarasiuk.movieland.service.ReviewService;
 import com.tarasiuk.movieland.service.exceptions.RestrictAccessException;
 import com.tarasiuk.movieland.utils.AllowedRoles;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +50,7 @@ public class ReviewController {
         log.info("Attempt to delete review");
         long startTime = System.currentTimeMillis();
         try {
-            reviewService.removeReviewRequest(addReviewRequestDTO.getId());
+            reviewService.removeReviewRequest(addReviewRequestDTO.getId(), addReviewRequestDTO.getUserId());
             log.info("Review was deleted. It took {} ms", System.currentTimeMillis() - startTime);
         } catch (RestrictAccessException e) {
             SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO();

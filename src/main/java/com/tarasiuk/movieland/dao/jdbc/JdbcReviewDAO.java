@@ -55,8 +55,8 @@ public class JdbcReviewDAO implements ReviewDAO {
     }
 
     @Override
-    public void deleteReview(Integer reviewId) {
-        jdbcTemplate.update(deleteReviewByIDSQL, reviewId);
+    public void deleteReview(Integer reviewId, Integer userId) {
+        jdbcTemplate.update(deleteReviewByIDSQL, reviewId, userId);
     }
 
 }

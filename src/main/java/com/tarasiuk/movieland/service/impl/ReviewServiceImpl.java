@@ -40,7 +40,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void removeReviewRequest(Integer reviewId) throws RestrictAccessException {
-        reviewDao.deleteReview(reviewId);
+    public void removeReviewRequest(Integer reviewId, Integer userId) throws RestrictAccessException {
+        reviewDao.deleteReview(reviewId, userId);
     }
 }

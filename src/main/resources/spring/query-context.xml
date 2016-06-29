@@ -53,7 +53,7 @@
     </bean>
 
     <bean id="deleteReviewByIDSQL" class="java.lang.String">
-        <constructor-arg value="DELETE FROM review WHERE id = ?"/>
+        <constructor-arg value="DELETE FROM review WHERE id = ? AND userid = ?"/>
     </bean>
 
 </beans>
