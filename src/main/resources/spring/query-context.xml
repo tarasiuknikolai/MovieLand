@@ -48,4 +48,12 @@
         <constructor-arg value="SELECT u.* FROM users u WHERE u.id = ?"/>
     </bean>
 
+    <bean id="insertReviewSQL" class="java.lang.String">
+        <constructor-arg value="INSERT INTO review (movieid, userid, review) VALUES (?,?,?)"/>
+    </bean>
+
+    <bean id="deleteReviewByIDSQL" class="java.lang.String">
+        <constructor-arg value="DELETE FROM review WHERE id = ? AND userid = ?"/>
+    </bean>
+
 </beans>

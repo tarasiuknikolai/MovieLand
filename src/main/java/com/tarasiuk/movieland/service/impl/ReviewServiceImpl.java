@@ -6,6 +6,7 @@ import com.tarasiuk.movieland.dto.request.RateMovieRequestDTO;
 import com.tarasiuk.movieland.entity.Review;
 import com.tarasiuk.movieland.service.ReviewService;
 import com.tarasiuk.movieland.service.exceptions.RestrictAccessException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,11 +34,13 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void addReviewRequest(AddReviewRequestDTO addReviewRequestDTO) throws RestrictAccessException {
-
+        ModelMapper modelMapper = new ModelMapper();
+        Review review = modelMapper.map(addReviewRequestDTO, Review.class);
+        reviewDao.addReview(review);
     }
 
     @Override
-    public void removeReviewRequest(Integer reviewId) throws RestrictAccessException {
-
+    public void removeReviewRequest(Integer reviewId, Integer userId) throws RestrictAccessException {
+        reviewDao.deleteReview(reviewId, userId);
     }
 }

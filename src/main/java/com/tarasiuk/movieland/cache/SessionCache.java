@@ -59,6 +59,15 @@ public class SessionCache {
         return null;
     }
 
+    public boolean isUserRoleByToken(String token, String[] roles) {
+        for (String role : roles) {
+            if (getUserByToken(token) != null && role.equals(getUserByToken(token).getRole())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean isUserInCache (Integer userId) {
         for (AuthRequestDTO cache : cacheList) {
             if (cache.getUserId().equals(userId)) {

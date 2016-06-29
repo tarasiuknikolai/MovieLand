@@ -24,6 +24,13 @@ public class JdbcReviewDAO implements ReviewDAO {
     @Autowired
     private String getLimitedReviewForMovieSQL;
 
+    @Autowired
+    private String insertReviewSQL;
+
+    @Autowired
+    private String deleteReviewByIDSQL;
+
+
     @Override
     public List<Review> getAllForMovie(int movieId) {
         log.info("Start query to get all review for movie from DB");
@@ -42,5 +49,14 @@ public class JdbcReviewDAO implements ReviewDAO {
         return reviewList;
     }
 
+    @Override
+    public void addReview(Review review) {
+        jdbcTemplate.update(insertReviewSQL, review.getMovieid(), review.getUserid(), review.getReview());
+    }
+
+    @Override
+    public void deleteReview(Integer reviewId, Integer userId) {
+        jdbcTemplate.update(deleteReviewByIDSQL, reviewId, userId);
+    }
 
 }

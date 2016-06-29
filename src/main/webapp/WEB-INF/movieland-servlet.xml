@@ -15,4 +15,11 @@
 
     <mvc:annotation-driven/>
 
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/v1/review"/>
+            <bean class="com.tarasiuk.movieland.controller.MovielandInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>
