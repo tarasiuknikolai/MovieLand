@@ -1,4 +1,4 @@
-package com.tarasiuk.movieland.controller;
+package com.tarasiuk.movieland.controller.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;

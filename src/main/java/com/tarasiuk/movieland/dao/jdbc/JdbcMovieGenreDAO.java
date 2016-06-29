@@ -6,19 +6,22 @@ import com.tarasiuk.movieland.entity.MovieGenre;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public class JdbcMovieGenreDAO implements MovieGenreDAO{
+public class JdbcMovieGenreDAO implements MovieGenreDAO {
+
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final MovieGenreRowMapper movieGenreRowMapper = new MovieGenreRowMapper();
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
+    @Value("${sql.movie.genre.by.movieid}")
     private String getAllMovieGenresForMovieSQL;
 
 

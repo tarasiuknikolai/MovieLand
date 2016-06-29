@@ -18,7 +18,7 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/v1/review"/>
-            <bean class="com.tarasiuk.movieland.controller.MovielandInterceptor"/>
+            <bean class="com.tarasiuk.movieland.controller.interceptor.MovielandInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 

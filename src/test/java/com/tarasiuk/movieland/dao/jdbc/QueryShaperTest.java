@@ -4,6 +4,7 @@ import com.tarasiuk.movieland.dto.request.SearchMovieRequestDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -16,7 +17,7 @@ public class QueryShaperTest {
     @Autowired
     QueryShaper queryShaper;
 
-    @Autowired
+    @Value("${sql.movie.all}")
     private String getAllMoviesSQL;
 
     @Test

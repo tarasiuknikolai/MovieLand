@@ -1,4 +1,4 @@
-package com.tarasiuk.movieland.controller;
+package com.tarasiuk.movieland.controller.security;
 
 import com.tarasiuk.movieland.dto.request.AuthRequestDTO;
 import com.tarasiuk.movieland.service.SecurityService;

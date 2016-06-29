@@ -6,6 +6,7 @@ import com.tarasiuk.movieland.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -13,16 +14,15 @@ import org.springframework.stereotype.Repository;
 public class JdbcUserDAO implements UserDAO {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
-
     private final UserRowMapper userRowMapper = new UserRowMapper();
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
+    @Value("${sql.user.by.credentials}")
     private String getUserByCredentialsSQL;
 
-    @Autowired
+    @Value("${sql.user.by.id}")
     private String getUserByIdSQL;
 
     @Override

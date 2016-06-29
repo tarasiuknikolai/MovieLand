@@ -6,6 +6,7 @@ import com.tarasiuk.movieland.entity.Country;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -19,7 +20,7 @@ public class JdbcCountryDAO implements CountryDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
+    @Value("${sql.country.by.movieid}")
     private String getAllCountriesForMovieSQL;
 
     @Override

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class JdbcMovieDAO implements MovieDAO {
+
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final MovieRowMapper movieRowMapper = new MovieRowMapper();
 
@@ -25,10 +26,10 @@ public class JdbcMovieDAO implements MovieDAO {
     @Autowired
     private QueryShaper queryShaper;
 
-    @Autowired
+    @Value("${sql.movie.by.id}")
     private String getMovieByIdSQL;
 
-    @Autowired
+    @Value("${sql.movie.all}")
     private String getAllMoviesSQL;
 
     @Value("${movie.pagesize:5}")

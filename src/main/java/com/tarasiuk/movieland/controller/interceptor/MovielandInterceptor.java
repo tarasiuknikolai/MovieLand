@@ -1,4 +1,4 @@
-package com.tarasiuk.movieland.controller;
+package com.tarasiuk.movieland.controller.interceptor;
 
 import com.tarasiuk.movieland.cache.SessionCache;
 import com.tarasiuk.movieland.service.exceptions.RestrictAccessException;
@@ -29,7 +29,7 @@ public class MovielandInterceptor extends HandlerInterceptorAdapter {
 
         if (method.isAnnotationPresent(AllowedRoles.class)) {
             String[] allowedRoles = method.getAnnotation(AllowedRoles.class).roles();
-            log.info("allowedRoles = {}\\n token: {}", Arrays.asList(allowedRoles), authToken);
+            log.info("allowedRoles = {} - token: {}", Arrays.asList(allowedRoles), authToken);
             if (authToken == null || !(sessionCache.isUserRoleByToken(authToken, allowedRoles))) {
                 throw new RestrictAccessException("Access denied. Wrong credentials");
             }
