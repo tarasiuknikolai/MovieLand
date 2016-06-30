@@ -14,4 +14,6 @@ public interface MovieDAO {
 
     Movie getById(int id);
 
+    void updateReview(int movieId);
+
 }

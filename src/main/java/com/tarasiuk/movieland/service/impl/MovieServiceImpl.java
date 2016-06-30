@@ -111,4 +111,9 @@ public class MovieServiceImpl implements MovieService {
     public void unmarkMovieForRemovingRequest(int movieID) throws RestrictAccessException  {
 
     }
+
+    @Override
+    public void updateMovieReview(int id) throws RestrictAccessException {
+        movieDao.updateReview(id);
+    }
 }
