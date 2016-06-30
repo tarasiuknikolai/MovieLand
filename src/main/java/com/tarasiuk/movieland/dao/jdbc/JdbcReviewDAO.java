@@ -33,6 +33,9 @@ public class JdbcReviewDAO implements ReviewDAO {
     @Value("${sql.review.delete}")
     private String deleteReviewByIDSQL;
 
+    @Value("${sql.review.by.id}")
+    private String getReviewByIdSQL;
+
 
     @Override
     public List<Review> getAllForMovie(int movieId) {
@@ -68,4 +71,12 @@ public class JdbcReviewDAO implements ReviewDAO {
         log.info("Deleted {} review with id = {}. It took {} ms", count, reviewId, System.currentTimeMillis() - startTime);
     }
 
+    @Override
+    public Review getReviewById(int reviewId) {
+        log.info("Start query to get review with id {} from DB", reviewId);
+        long startTime = System.currentTimeMillis();
+        Review review = jdbcTemplate.queryForObject(getReviewByIdSQL, new Object[]{reviewId}, reviewRowMapper);
+        log.info("Finish query to get review with id {} from DB. It took {} ms", reviewId, System.currentTimeMillis() - startTime);
+        return review;
+    }
 }

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class JdbcRatingDAO implements RatingDAO {
 
@@ -62,19 +64,19 @@ public class JdbcRatingDAO implements RatingDAO {
     }
 
     @Override
-    public Rating getRatingByMovieId(int movieId) {
+    public List<Rating> getRatingByMovieId(int movieId) {
         log.info("Start query to get Rating with movieid {} from DB", movieId);
         long startTime = System.currentTimeMillis();
-        Rating rating = jdbcTemplate.queryForObject(getRatingByMovieIdSQL, new Object[]{movieId}, ratingRowMapper);
+        List<Rating> rating = jdbcTemplate.query(getRatingByMovieIdSQL, new Object[]{movieId}, ratingRowMapper);
         log.info("Finish query to get Rating with movieid {} from DB. It took {} ms", movieId, System.currentTimeMillis() - startTime);
         return rating;
     }
 
     @Override
-    public Rating getRatingByUserId(int userId) {
+    public List<Rating> getRatingByUserId(int userId) {
         log.info("Start query to get Rating with userid {} from DB", userId);
         long startTime = System.currentTimeMillis();
-        Rating rating = jdbcTemplate.queryForObject(getRatingByUserIdSQL, new Object[]{userId}, ratingRowMapper);
+        List<Rating> rating = jdbcTemplate.query(getRatingByUserIdSQL, new Object[]{userId}, ratingRowMapper);
         log.info("Finish query to get Rating with userid {} from DB. It took {} ms", userId, System.currentTimeMillis() - startTime);
         return rating;
     }

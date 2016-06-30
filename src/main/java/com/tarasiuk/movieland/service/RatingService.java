@@ -3,14 +3,16 @@ package com.tarasiuk.movieland.service;
 import com.tarasiuk.movieland.dto.request.RatingRequestDTO;
 import com.tarasiuk.movieland.entity.Rating;
 
+import java.util.List;
+
 public interface RatingService {
 
     void putRating(RatingRequestDTO ratingRequestDTO);
 
     Rating getRatingById(int ratingId);
 
-    Rating getRatingByMovieId(int movieId);
+    List<Rating> getRatingByMovieId(int movieId);
 
-    Rating getRatingByUserId(int userId);
+    List<Rating> getRatingByUserId(int userId);
 
 }

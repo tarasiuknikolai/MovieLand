@@ -41,6 +41,10 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void removeReviewRequest(Integer reviewId, Integer userId) throws RestrictAccessException {
-        reviewDao.deleteReview(reviewId, userId);
+        if (reviewDao.getReviewById(reviewId).getUserid()==userId) {
+            reviewDao.deleteReview(reviewId, userId);
+        } else {
+            throw new RestrictAccessException("You cannot delete not own review");
+        }
     }
 }

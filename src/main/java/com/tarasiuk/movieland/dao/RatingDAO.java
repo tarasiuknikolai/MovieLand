@@ -3,6 +3,8 @@ package com.tarasiuk.movieland.dao;
 import com.tarasiuk.movieland.dto.request.RatingRequestDTO;
 import com.tarasiuk.movieland.entity.Rating;
 
+import java.util.List;
+
 public interface RatingDAO {
 
     void addRating(RatingRequestDTO ratingRequestDTO);
@@ -11,7 +13,7 @@ public interface RatingDAO {
 
     Rating getRatingById(int ratingId);
 
-    Rating getRatingByMovieId(int movieId);
+    List<Rating> getRatingByMovieId(int movieId);
 
-    Rating getRatingByUserId(int userId);
+    List<Rating> getRatingByUserId(int userId);
 }
