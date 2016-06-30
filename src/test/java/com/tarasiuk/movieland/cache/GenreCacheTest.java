@@ -37,7 +37,7 @@ public class GenreCacheTest {
     @Test
     public void test() throws Exception {
         HashMapCache<Integer, Genre> cacheService = new HashMapCache<>();
-        cacheService.put(1,new Genre());
+        //cacheService.put(1,new Genre());
         GenreCache cacheGenreService = new GenreCache();
         cacheGenreService.setRefreshPeriod(10);
         cacheGenreService.setRefreshTimeUnit(TimeUnit.SECONDS);
@@ -45,17 +45,11 @@ public class GenreCacheTest {
         cacheGenreService.setGenreService(new StubGenreService());
         cacheGenreService.afterPropertiesSet();
 
-        Genre genre1 = new Genre();
-        genre1.setId(1);
-        genre1.setGenre("genre#1");
+        Genre genre1 = new Genre(1, "genre#1");
 
-        Genre genre2 = new Genre();
-        genre2.setId(2);
-        genre2.setGenre("genre#2");
+        Genre genre2 = new Genre(2, "genre#2");
 
-        Genre genre3 = new Genre();
-        genre3.setId(3);
-        genre3.setGenre("genre#3");
+        Genre genre3 = new Genre(3, "genre#3");
 
         cacheService.put(1, genre1);
         cacheService.put(2, genre2);
