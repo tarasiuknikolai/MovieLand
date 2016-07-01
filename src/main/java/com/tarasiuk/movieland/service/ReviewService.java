@@ -18,6 +18,6 @@ public interface ReviewService {
 
     void addReviewRequest(AddReviewRequestDTO addReviewRequestDTO) throws RestrictAccessException;
 
-    void removeReviewRequest(Integer reviewId, Integer userId) throws RestrictAccessException;
+    void removeReviewRequest(Integer reviewId, String token) throws RestrictAccessException;
 
 }

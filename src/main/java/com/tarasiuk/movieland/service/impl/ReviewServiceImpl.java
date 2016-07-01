@@ -1,5 +1,6 @@
 package com.tarasiuk.movieland.service.impl;
 
+import com.tarasiuk.movieland.cache.SessionCache;
 import com.tarasiuk.movieland.dao.ReviewDAO;
 import com.tarasiuk.movieland.dto.request.AddReviewRequestDTO;
 import com.tarasiuk.movieland.dto.request.RateMovieRequestDTO;
@@ -16,6 +17,9 @@ import java.util.List;
 public class ReviewServiceImpl implements ReviewService {
     @Autowired
     ReviewDAO reviewDao;
+
+    @Autowired
+    SessionCache sessionCache;
 
     @Override
     public List<Review> getAllForMovie(int movieId) {
@@ -40,11 +44,12 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void removeReviewRequest(Integer reviewId, Integer userId) throws RestrictAccessException {
-        if (reviewDao.getReviewById(reviewId).getUserid()==userId) {
-            reviewDao.deleteReview(reviewId, userId);
+    public void removeReviewRequest(Integer reviewId, String token) throws RestrictAccessException {
+        if (reviewDao.getReviewById(reviewId).getUserid() == sessionCache.getUserByToken(token).getId() ||
+                sessionCache.isUserRoleByToken(token, new String[]{"ADMIN"})) {
+            reviewDao.deleteReview(reviewId);
         } else {
-            throw new RestrictAccessException("You cannot delete not own review");
+            throw new RestrictAccessException("You cannot delete that review");
         }
     }
 }

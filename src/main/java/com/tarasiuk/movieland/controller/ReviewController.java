@@ -41,7 +41,7 @@ public class ReviewController {
                                           @RequestHeader(value = "authToken") String token) throws RestrictAccessException {
         log.info("Attempt to delete review");
         long startTime = System.currentTimeMillis();
-        reviewService.removeReviewRequest(addReviewRequestDTO.getId(), addReviewRequestDTO.getUserId());
+        reviewService.removeReviewRequest(addReviewRequestDTO.getId(), token);
         log.info("Review was deleted. It took {} ms", System.currentTimeMillis() - startTime);
         SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO("OK");
         return new ResponseEntity<>(simpleResponseDTO, HttpStatus.OK);
