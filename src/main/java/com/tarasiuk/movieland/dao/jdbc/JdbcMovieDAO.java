@@ -35,6 +35,9 @@ public class JdbcMovieDAO implements MovieDAO {
     @Value("${movie.pagesize:5}")
     private int pageSize;
 
+    @Value("${sql.movie.update.rating}")
+    private String updateMovieRatingSQL;
+
     @Override
     public List<Movie> getAll(SearchMovieRequestDTO queryQuestion) {
         log.info("Start query with conditions to get movies from DB");
@@ -60,6 +63,14 @@ public class JdbcMovieDAO implements MovieDAO {
         List<Movie> movieList = jdbcTemplate.query(queryShaper.formOrderClause(getAllMoviesSQL, getMovieRequestDTO, pageSize), movieRowMapper);
         log.info("Finish query to get movies from DB. It took {} ms", System.currentTimeMillis() - startTime);
         return movieList;
+    }
+
+    @Override
+    public void updateRatingValue(int movieId) {
+        log.info("Start update movie rating for movieid {} into DB", movieId);
+        long startTime = System.currentTimeMillis();
+        int count = jdbcTemplate.update(updateMovieRatingSQL, movieId);
+        log.info("Finish {} update movie review in DB. It took {} ms", count, System.currentTimeMillis() - startTime);
     }
 
 }

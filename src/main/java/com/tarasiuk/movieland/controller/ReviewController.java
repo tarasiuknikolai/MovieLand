@@ -28,18 +28,10 @@ public class ReviewController {
                                        @RequestHeader(value = "authToken") String token) throws RestrictAccessException {
         log.info("Attempt to add new review");
         long startTime = System.currentTimeMillis();
-        try {
-            reviewService.addReviewRequest(addReviewRequestDTO);
-            log.info("Review was added. It took {} ms", System.currentTimeMillis() - startTime);
-        } catch (RestrictAccessException e) {
-            SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO();
-            simpleResponseDTO.setMessage(e.getMessage());
-            return new ResponseEntity<>(simpleResponseDTO, HttpStatus.BAD_REQUEST);
-        }
-        SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO();
-        simpleResponseDTO.setMessage("OK");
+        reviewService.addReviewRequest(addReviewRequestDTO);
+        log.info("Review was added. It took {} ms", System.currentTimeMillis() - startTime);
+        SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO("OK");
         return new ResponseEntity<>(simpleResponseDTO, HttpStatus.OK);
-
     }
 
     @AllowedRoles(roles = {"USER", "ADMIN"})
@@ -49,16 +41,9 @@ public class ReviewController {
                                           @RequestHeader(value = "authToken") String token) throws RestrictAccessException {
         log.info("Attempt to delete review");
         long startTime = System.currentTimeMillis();
-        try {
-            reviewService.removeReviewRequest(addReviewRequestDTO.getId(), addReviewRequestDTO.getUserId());
-            log.info("Review was deleted. It took {} ms", System.currentTimeMillis() - startTime);
-        } catch (RestrictAccessException e) {
-            SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO();
-            simpleResponseDTO.setMessage(e.getMessage());
-            return new ResponseEntity<>(simpleResponseDTO, HttpStatus.BAD_REQUEST);
-        }
-        SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO();
-        simpleResponseDTO.setMessage("OK");
+        reviewService.removeReviewRequest(addReviewRequestDTO.getId(), addReviewRequestDTO.getUserId());
+        log.info("Review was deleted. It took {} ms", System.currentTimeMillis() - startTime);
+        SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO("OK");
         return new ResponseEntity<>(simpleResponseDTO, HttpStatus.OK);
     }
 
