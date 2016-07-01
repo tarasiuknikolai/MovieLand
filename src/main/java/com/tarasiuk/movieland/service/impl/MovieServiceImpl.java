@@ -113,7 +113,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void updateMovieReview(int id) throws RestrictAccessException {
-        movieDao.updateReview(id);
+    public void updateMovieRatingValue(int id) throws RestrictAccessException {
+        movieDao.updateRatingValue(id);
     }
 }

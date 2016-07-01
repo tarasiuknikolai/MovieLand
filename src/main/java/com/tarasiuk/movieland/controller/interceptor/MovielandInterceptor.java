@@ -40,7 +40,7 @@ public class MovielandInterceptor extends HandlerInterceptorAdapter {
                 throw new RestrictAccessException("Access denied. Wrong credentials");
             }
         }
-        if (authToken == null || sessionCache.getUserByToken(authToken).getEmail()==null) {
+        if (authToken == null || sessionCache.getUserByToken(authToken) == null) {
             MDC.put("userLogin", "guest");
         } else {
             MDC.put("userLogin", sessionCache.getUserByToken(authToken).getEmail());
@@ -49,10 +49,4 @@ public class MovielandInterceptor extends HandlerInterceptorAdapter {
         return super.preHandle(request, response, handler);
     }
 
-    @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        MDC.remove("requestId");
-        MDC.remove("userLogin");
-        super.afterCompletion(request, response, handler, ex);
-    }
 }

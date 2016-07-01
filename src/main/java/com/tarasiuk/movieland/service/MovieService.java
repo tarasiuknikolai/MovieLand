@@ -25,6 +25,6 @@ public interface MovieService {
 
     void unmarkMovieForRemovingRequest(int movieID) throws RestrictAccessException;
 
-    void updateMovieReview(int id) throws RestrictAccessException;
+    void updateMovieRatingValue(int id) throws RestrictAccessException;
 
 }

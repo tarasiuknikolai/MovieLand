@@ -46,10 +46,7 @@ public class MovieController {
         log.info("Sending request to get all movies");
         long startTime = System.currentTimeMillis();
 
-        GetMovieRequestDTO getMovieRequestDTO = new GetMovieRequestDTO();
-        getMovieRequestDTO.setRatingOrder(ratingOrder);
-        getMovieRequestDTO.setPriceOrder(priceOrder);
-        getMovieRequestDTO.setPageNumber(pageNumber);
+        GetMovieRequestDTO getMovieRequestDTO = createGetMovieRequestDTO(ratingOrder, priceOrder, pageNumber);
 
         List<Movie> listMovie = movieService.getAll(getMovieRequestDTO);
 
@@ -64,6 +61,14 @@ public class MovieController {
 
         log.info("All movies is received. It took {} ms", System.currentTimeMillis() - startTime);
         return moviesListDTO;
+    }
+
+    private GetMovieRequestDTO createGetMovieRequestDTO(String ratingOrder, String priceOrder, Integer pageNumber) {
+        GetMovieRequestDTO getMovieRequestDTO = new GetMovieRequestDTO();
+        getMovieRequestDTO.setRatingOrder(ratingOrder);
+        getMovieRequestDTO.setPriceOrder(priceOrder);
+        getMovieRequestDTO.setPageNumber(pageNumber);
+        return getMovieRequestDTO;
     }
 
     @RequestMapping(value = "/movie/search", method = RequestMethod.POST)

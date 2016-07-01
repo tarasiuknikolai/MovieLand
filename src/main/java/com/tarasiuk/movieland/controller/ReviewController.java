@@ -30,10 +30,8 @@ public class ReviewController {
         long startTime = System.currentTimeMillis();
         reviewService.addReviewRequest(addReviewRequestDTO);
         log.info("Review was added. It took {} ms", System.currentTimeMillis() - startTime);
-        SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO();
-        simpleResponseDTO.setMessage("OK");
+        SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO("OK");
         return new ResponseEntity<>(simpleResponseDTO, HttpStatus.OK);
-
     }
 
     @AllowedRoles(roles = {"USER", "ADMIN"})
@@ -45,8 +43,7 @@ public class ReviewController {
         long startTime = System.currentTimeMillis();
         reviewService.removeReviewRequest(addReviewRequestDTO.getId(), addReviewRequestDTO.getUserId());
         log.info("Review was deleted. It took {} ms", System.currentTimeMillis() - startTime);
-        SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO();
-        simpleResponseDTO.setMessage("OK");
+        SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO("OK");
         return new ResponseEntity<>(simpleResponseDTO, HttpStatus.OK);
     }
 

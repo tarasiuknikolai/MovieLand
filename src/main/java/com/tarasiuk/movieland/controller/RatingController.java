@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -28,14 +30,19 @@ public class RatingController {
 
 
     @AllowedRoles(roles = {"USER", "ADMIN"})
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RestrictAccessException.class)
     @RequestMapping(value = "/rate", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> putRating(@RequestBody RatingRequestDTO ratingRequestDTO,
                                        @RequestHeader(value = "authToken") String token) throws RestrictAccessException {
+        log.info("Sending request to post (store) rating");
+        long startTime = System.currentTimeMillis();
+
         ratingService.putRating(ratingRequestDTO);
-        movieService.updateMovieReview(ratingRequestDTO.getMovieId());
-        SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO();
-        simpleResponseDTO.setMessage("OK");
+        movieService.updateMovieRatingValue(ratingRequestDTO.getMovieId());
+
+        log.info("Rating was posted. It took {} ms", System.currentTimeMillis() - startTime);
+        SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO("OK");
         return new ResponseEntity<>(simpleResponseDTO, HttpStatus.OK);
     }
 

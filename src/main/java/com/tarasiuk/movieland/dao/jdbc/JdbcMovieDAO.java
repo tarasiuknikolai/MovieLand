@@ -66,7 +66,7 @@ public class JdbcMovieDAO implements MovieDAO {
     }
 
     @Override
-    public void updateReview(int movieId) {
+    public void updateRatingValue(int movieId) {
         log.info("Start update movie rating for movieid {} into DB", movieId);
         long startTime = System.currentTimeMillis();
         int count = jdbcTemplate.update(updateMovieRatingSQL, movieId);
