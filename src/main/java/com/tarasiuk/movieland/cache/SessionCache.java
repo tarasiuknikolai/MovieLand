@@ -89,4 +89,9 @@ public class SessionCache {
             }
         }
     }
+
+    public void invalidateCache() {
+        cacheList.clear();
+    }
+
 }

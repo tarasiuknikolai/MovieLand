@@ -62,6 +62,10 @@ public class GenreCache implements InitializingBean {
         }, 0, refreshPeriod, refreshTimeUnit);
     }
 
+    public void invalidateCache() {
+        cache.clear();
+    }
+
     public void setCache(HashMapCache<Integer, Genre> cache) {
         this.cache = cache;
     }
