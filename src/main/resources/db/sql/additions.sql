@@ -7,7 +7,7 @@ create table if not exists rating
   id integer primary key autoincrement
 , movieid integer
 , userid integer
-, rating integer
+, rating real
 , FOREIGN KEY(movieid) REFERENCES movie(id)
 , FOREIGN KEY(userid) REFERENCES users(id)
 );

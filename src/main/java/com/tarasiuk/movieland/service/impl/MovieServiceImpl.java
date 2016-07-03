@@ -1,12 +1,15 @@
 package com.tarasiuk.movieland.service.impl;
 
+import com.tarasiuk.movieland.cache.SessionCache;
 import com.tarasiuk.movieland.dao.MovieDAO;
+import com.tarasiuk.movieland.dao.RatingDAO;
 import com.tarasiuk.movieland.dto.request.AddMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.EditMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.GetMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.SearchMovieRequestDTO;
 import com.tarasiuk.movieland.entity.Movie;
 
+import com.tarasiuk.movieland.entity.Rating;
 import com.tarasiuk.movieland.service.CountryService;
 import com.tarasiuk.movieland.service.GenreService;
 import com.tarasiuk.movieland.service.MovieService;
@@ -31,6 +34,12 @@ public class MovieServiceImpl implements MovieService {
 
     @Autowired
     private GenreService genreService;
+
+    @Autowired
+    private SessionCache sessionCache;
+
+    @Autowired
+    private RatingDAO ratingDAO;
 
     @Value("${sql.review.limit:2}")
     private int limitCount;
@@ -66,8 +75,17 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie getById(int id) {
+    public Movie getById(int id, String token) {
         Movie movie = movieDao.getById(id);
+        if (token != null && sessionCache.getUserByToken(token) != null) {
+            List<Rating> ratingList = ratingDAO.getRatingByUserId(sessionCache.getUserByToken(token).getId());
+            for (Rating rating : ratingList) {
+                if (rating.getMovieId() == id) {
+                    movie.setRating(rating.getRating());
+                    break;
+                }
+            }
+        }
         populateCountry(movie);
         populateGenre(movie);
         populateReview(movie);

@@ -28,11 +28,12 @@ public class MovieController {
 
     @RequestMapping(value = "/movie/{movieId}", method = RequestMethod.GET)
     @ResponseBody
-    public MovieByIdDTO getMovieById(@PathVariable int movieId) {
+    public MovieByIdDTO getMovieById(@PathVariable int movieId,
+                                     @RequestHeader(value = "authToken", required = false) String token) {
         log.info("Sending request to get movie with id = {}", movieId);
         long startTime = System.currentTimeMillis();
         ModelMapper modelMapper = new ModelMapper();
-        MovieByIdDTO movieByIdDTO = modelMapper.map(movieService.getById(movieId), MovieByIdDTO.class);
+        MovieByIdDTO movieByIdDTO = modelMapper.map(movieService.getById(movieId, token), MovieByIdDTO.class);
         log.info("Movie with ID {} is received. It took {} ms", movieId, System.currentTimeMillis() - startTime);
         return movieByIdDTO;
     }

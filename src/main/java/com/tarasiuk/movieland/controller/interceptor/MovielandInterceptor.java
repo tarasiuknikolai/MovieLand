@@ -37,7 +37,7 @@ public class MovielandInterceptor extends HandlerInterceptorAdapter {
             String[] allowedRoles = method.getAnnotation(AllowedRoles.class).roles();
             log.info("allowedRoles = {} - token: {}", Arrays.asList(allowedRoles), authToken);
             if (authToken == null || !(sessionCache.isUserRoleByToken(authToken, allowedRoles))) {
-                log.error("Access denied. Wrong credentials. Token: " + authToken);
+                log.error("Access denied. Wrong credentials. Token: {}", authToken);
                 throw new RestrictAccessException("Access denied. Wrong credentials");
             }
         }

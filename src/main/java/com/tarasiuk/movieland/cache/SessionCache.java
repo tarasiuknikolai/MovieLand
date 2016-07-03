@@ -49,10 +49,12 @@ public class SessionCache {
     public User getUserByToken (String token) {
         synchronized (cacheList) {
             for (AuthRequestDTO  cache : cacheList) {
-                if (cache.getToken().equals(token) && cache.getLoginTimestamp() + SESSION_TIMEOUT > System.currentTimeMillis()) {
-                    return userService.getUserById(cache.getUserId());
-                } else {
-                    cacheList.remove(cache);
+                if (cache.getToken().equals(token)) {
+                    if (cache.getLoginTimestamp() + SESSION_TIMEOUT > System.currentTimeMillis()) {
+                        return userService.getUserById(cache.getUserId());
+                    } else {
+                        cacheList.remove(cache);
+                    }
                 }
             }
         }
