@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="true">
     <property name="LOGS" value="${CATALINA_HOME}/logs" />
+    <property name="defaultPattern" value="%d{HH:mm:ss.SSS} [%thread] %X{requestId} %X{userLogin} %-5level" />
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %X{requestId} %X{userLogin} %-5level %logger{36} - %msg%n</pattern>
+            <pattern>${defaultPattern} %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -14,7 +15,7 @@
             <maxFileSize>5MB</maxFileSize>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
+            <pattern>${defaultPattern} %logger{35} - %msg%n</pattern>
         </encoder>
     </appender>
 

@@ -23,7 +23,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public AuthRequestDTO authUser(AuthRequestDTO authRequestDTO) throws SecurityException {
+    public AuthRequestDTO authUser(AuthRequestDTO authRequestDTO) {
         try {
             sessionCache.putUser(authRequestDTO, checkCredentials(authRequestDTO));
             authRequestDTO.setMessage("OK");
@@ -34,7 +34,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public boolean checkPermission(Integer userId) throws RestrictAccessException {
+    public boolean checkPermission(Integer userId) {
         return false;
     }
 }

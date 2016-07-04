@@ -37,6 +37,8 @@ public class JdbcRatingDAO implements RatingDAO {
     @Value("${sql.rating.get.by.userid}")
     private String getRatingByUserIdSQL;
 
+    @Value("${sql.rating.get.by.movieid.userid}")
+    private String getRatingByMovieIdAndUserIdSQL;
 
     @Override
     public void addRating(RatingRequestDTO ratingRequestDTO) {
@@ -60,6 +62,15 @@ public class JdbcRatingDAO implements RatingDAO {
         long startTime = System.currentTimeMillis();
         Rating rating = jdbcTemplate.queryForObject(getRatingByIdSQL, new Object[]{id}, ratingRowMapper);
         log.info("Finish query to get Rating with id {} from DB. It took {} ms", id, System.currentTimeMillis() - startTime);
+        return rating;
+    }
+
+    @Override
+    public Rating getRatingByMovieIdAndUserId(int movieId, int userId) {
+        log.info("Start query to get Rating with movieId {} and userId {} from DB", movieId, userId);
+        long startTime = System.currentTimeMillis();
+        Rating rating = jdbcTemplate.queryForObject(getRatingByMovieIdAndUserIdSQL, new Object[]{movieId, userId}, ratingRowMapper);
+        log.info("Finish query to get Rating with movieId {} and userId {} from DB. It took {} ms", movieId, userId, System.currentTimeMillis() - startTime);
         return rating;
     }
 

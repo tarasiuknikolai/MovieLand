@@ -2,6 +2,7 @@ package com.tarasiuk.movieland.controller;
 
 import com.tarasiuk.movieland.dto.SimpleResponseDTO;
 import com.tarasiuk.movieland.dto.request.RatingRequestDTO;
+import com.tarasiuk.movieland.security.Roles;
 import com.tarasiuk.movieland.service.MovieService;
 import com.tarasiuk.movieland.service.RatingService;
 import com.tarasiuk.movieland.service.exceptions.RestrictAccessException;
@@ -29,7 +30,7 @@ public class RatingController {
     private MovieService movieService;
 
 
-    @AllowedRoles(roles = {"USER", "ADMIN"})
+    @AllowedRoles(roles = {Roles.USER, Roles.ADMIN})
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RestrictAccessException.class)
     @RequestMapping(value = "/rate", method = RequestMethod.POST)
     @ResponseBody

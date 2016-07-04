@@ -13,7 +13,6 @@ public class Movie {
     private double rating;
     private double price;
     private List<Review> review;
-    private byte[] poster;
 
     public int getId() {
         return id;
@@ -93,14 +92,6 @@ public class Movie {
 
     public void setReview(List<Review> review) {
         this.review = review;
-    }
-
-    public byte[] getPoster() {
-        return poster;
-    }
-
-    public void setPoster(byte[] poster) {
-        this.poster = poster;
     }
 
     @Override

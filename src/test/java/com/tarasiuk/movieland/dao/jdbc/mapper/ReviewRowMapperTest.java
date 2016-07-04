@@ -21,8 +21,8 @@ public class ReviewRowMapperTest {
         ReviewRowMapper reviewMapper = new ReviewRowMapper();
         Review review = reviewMapper.mapRow(resultSet, 0);
         assertEquals(review.getId(), 8);
-        assertEquals(review.getMovieid(), 13);
-        assertEquals(review.getUserid(), 21);
+        assertEquals(review.getMovieId(), 13);
+        assertEquals(review.getUserId(), 21);
         assertEquals(review.getReview(), "ReViEw");
     }
 

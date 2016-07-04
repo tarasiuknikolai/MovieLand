@@ -2,6 +2,7 @@ package com.tarasiuk.movieland.controller;
 
 import com.tarasiuk.movieland.dto.SimpleResponseDTO;
 import com.tarasiuk.movieland.dto.request.AddReviewRequestDTO;
+import com.tarasiuk.movieland.security.Roles;
 import com.tarasiuk.movieland.service.ReviewService;
 import com.tarasiuk.movieland.service.exceptions.RestrictAccessException;
 import com.tarasiuk.movieland.utils.AllowedRoles;
@@ -21,7 +22,7 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-    @AllowedRoles(roles = {"USER", "ADMIN"})
+    @AllowedRoles(roles = {Roles.USER, Roles.ADMIN})
     @RequestMapping(value = "/review", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> putReview(@RequestBody AddReviewRequestDTO addReviewRequestDTO,
@@ -34,7 +35,7 @@ public class ReviewController {
         return new ResponseEntity<>(simpleResponseDTO, HttpStatus.OK);
     }
 
-    @AllowedRoles(roles = {"USER", "ADMIN"})
+    @AllowedRoles(roles = {Roles.USER, Roles.ADMIN})
     @RequestMapping(value = "/review", method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseEntity<?> deleteReview(@RequestBody AddReviewRequestDTO addReviewRequestDTO,

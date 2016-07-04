@@ -2,6 +2,7 @@ package com.tarasiuk.movieland.cache;
 
 import com.tarasiuk.movieland.dto.request.AuthRequestDTO;
 import com.tarasiuk.movieland.entity.User;
+import com.tarasiuk.movieland.security.Roles;
 import com.tarasiuk.movieland.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,9 +62,9 @@ public class SessionCache {
         return null;
     }
 
-    public boolean isUserRoleByToken(String token, String[] roles) {
-        for (String role : roles) {
-            if (getUserByToken(token) != null && role.equals(getUserByToken(token).getRole())) {
+    public boolean isUserRoleByToken(String token, Roles[] roles) {
+        for (Roles role : roles) {
+            if (token != null && role == role.getRole(getUserByToken(token).getRole())) {
                 return true;
             }
         }

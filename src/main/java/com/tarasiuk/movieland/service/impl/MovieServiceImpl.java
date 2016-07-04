@@ -78,13 +78,7 @@ public class MovieServiceImpl implements MovieService {
     public Movie getById(int id, String token) {
         Movie movie = movieDao.getById(id);
         if (token != null && sessionCache.getUserByToken(token) != null) {
-            List<Rating> ratingList = ratingDAO.getRatingByUserId(sessionCache.getUserByToken(token).getId());
-            for (Rating rating : ratingList) {
-                if (rating.getMovieId() == id) {
-                    movie.setRating(rating.getRating());
-                    break;
-                }
-            }
+            movie.setRating(ratingDAO.getRatingByMovieIdAndUserId(id,sessionCache.getUserByToken(token).getId()).getRating());
         }
         populateCountry(movie);
         populateGenre(movie);
@@ -111,27 +105,27 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void addMovieRequest(AddMovieRequestDTO addMovieRequestDTO) throws RestrictAccessException {
+    public void addMovieRequest(AddMovieRequestDTO addMovieRequestDTO) {
 
     }
 
     @Override
-    public void editMovieRequest(EditMovieRequestDTO editMovieRequestDTO) throws RestrictAccessException {
+    public void editMovieRequest(EditMovieRequestDTO editMovieRequestDTO) {
 
     }
 
     @Override
-    public void markMovieForRemovingRequest(int movieID) throws RestrictAccessException  {
+    public void markMovieForRemovingRequest(int movieID) {
 
     }
 
     @Override
-    public void unmarkMovieForRemovingRequest(int movieID) throws RestrictAccessException  {
+    public void unmarkMovieForRemovingRequest(int movieID) {
 
     }
 
     @Override
-    public void updateMovieRatingValue(int id) throws RestrictAccessException {
+    public void updateMovieRatingValue(int id) {
         movieDao.updateRatingValue(id);
     }
 }

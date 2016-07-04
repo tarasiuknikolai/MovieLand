@@ -59,7 +59,7 @@ public class JdbcReviewDAO implements ReviewDAO {
     public void addReview(Review review) {
         log.info("Start insert review for movie into DB");
         long startTime = System.currentTimeMillis();
-        int count = jdbcTemplate.update(insertReviewSQL, review.getMovieid(), review.getUserid(), review.getReview());
+        int count = jdbcTemplate.update(insertReviewSQL, review.getMovieId(), review.getUserId(), review.getReview());
         log.info("Inserted {} review for movie to DB. It took {} ms", count, System.currentTimeMillis() - startTime);
     }
 

@@ -12,4 +12,10 @@ create table if not exists rating
 , FOREIGN KEY(userid) REFERENCES users(id)
 );
 --b11
-ALTER TABLE movie ADD COLUMN poster blob
+create table if not exists poster
+(
+  id integer primary key autoincrement
+, movieid integer
+, poster blob
+, FOREIGN KEY(movieid) REFERENCES movie(id)
+);
