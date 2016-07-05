@@ -26,7 +26,7 @@ public class PosterController {
         long startTime = System.currentTimeMillis();
         byte[] poster = posterService.getPosterByMovieId(movieId).getPoster();
         log.info("Movie`s poster is received. It took {} ms", System.currentTimeMillis() - startTime);
-        return new ResponseEntity(poster , HttpStatus.OK);
+        return new ResponseEntity<>(poster , HttpStatus.OK);
     }
 
 }

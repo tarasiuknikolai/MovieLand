@@ -1,20 +1,16 @@
 package com.tarasiuk.movieland.service.impl;
 
-import com.tarasiuk.movieland.cache.SessionCache;
 import com.tarasiuk.movieland.dao.MovieDAO;
-import com.tarasiuk.movieland.dao.RatingDAO;
 import com.tarasiuk.movieland.dto.request.AddMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.EditMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.GetMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.SearchMovieRequestDTO;
 import com.tarasiuk.movieland.entity.Movie;
 
-import com.tarasiuk.movieland.entity.Rating;
 import com.tarasiuk.movieland.service.CountryService;
 import com.tarasiuk.movieland.service.GenreService;
 import com.tarasiuk.movieland.service.MovieService;
 import com.tarasiuk.movieland.service.ReviewService;
-import com.tarasiuk.movieland.service.exceptions.RestrictAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,6 +19,7 @@ import java.util.List;
 
 @Service
 public class MovieServiceImpl implements MovieService {
+
     @Autowired
     private MovieDAO movieDao;
 
@@ -34,12 +31,6 @@ public class MovieServiceImpl implements MovieService {
 
     @Autowired
     private GenreService genreService;
-
-    @Autowired
-    private SessionCache sessionCache;
-
-    @Autowired
-    private RatingDAO ratingDAO;
 
     @Value("${sql.review.limit:2}")
     private int limitCount;
@@ -75,11 +66,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie getById(int id, String token) {
+    public Movie getById(int id) {
         Movie movie = movieDao.getById(id);
-        if (token != null && sessionCache.getUserByToken(token) != null) {
-            movie.setRating(ratingDAO.getRatingByMovieIdAndUserId(id,sessionCache.getUserByToken(token).getId()).getRating());
-        }
         populateCountry(movie);
         populateGenre(movie);
         populateReview(movie);

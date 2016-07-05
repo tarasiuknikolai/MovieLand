@@ -1,4 +1,4 @@
-package com.tarasiuk.movieland.security;
+package com.tarasiuk.movieland.service.security;
 
 public enum Roles {
 

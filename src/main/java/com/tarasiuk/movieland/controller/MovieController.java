@@ -8,6 +8,7 @@ import com.tarasiuk.movieland.dto.request.SearchMovieRequestDTO;
 import com.tarasiuk.movieland.entity.Movie;
 import com.tarasiuk.movieland.service.MovieService;
 
+import com.tarasiuk.movieland.service.security.MovieSecurityService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,13 +30,16 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
+    @Autowired
+    private MovieSecurityService movieSecurityService;
+
     @RequestMapping(value = "/movie/{movieId}", method = RequestMethod.GET)
     @ResponseBody
     public MovieByIdDTO getMovieById(@PathVariable int movieId,
                                      @RequestHeader(value = "authToken", required = false) String token) {
         log.info("Sending request to get movie with id = {}", movieId);
         long startTime = System.currentTimeMillis();
-        MovieByIdDTO movieByIdDTO = modelMapper.map(movieService.getById(movieId, token), MovieByIdDTO.class);
+        MovieByIdDTO movieByIdDTO = modelMapper.map(movieSecurityService.getById(movieId, token), MovieByIdDTO.class);
         log.info("Movie with ID {} is received. It took {} ms", movieId, System.currentTimeMillis() - startTime);
         return movieByIdDTO;
     }

@@ -2,7 +2,8 @@ package com.tarasiuk.movieland.controller;
 
 import com.tarasiuk.movieland.dto.SimpleResponseDTO;
 import com.tarasiuk.movieland.dto.request.AddReviewRequestDTO;
-import com.tarasiuk.movieland.security.Roles;
+import com.tarasiuk.movieland.service.security.ReviewSecurityService;
+import com.tarasiuk.movieland.service.security.Roles;
 import com.tarasiuk.movieland.service.ReviewService;
 import com.tarasiuk.movieland.service.exceptions.RestrictAccessException;
 import com.tarasiuk.movieland.utils.AllowedRoles;
@@ -22,6 +23,9 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
+    @Autowired
+    private ReviewSecurityService reviewSecurityService;
+
     @AllowedRoles(roles = {Roles.USER, Roles.ADMIN})
     @RequestMapping(value = "/review", method = RequestMethod.POST)
     @ResponseBody
@@ -29,7 +33,7 @@ public class ReviewController {
                                        @RequestHeader(value = "authToken") String token) throws RestrictAccessException {
         log.info("Attempt to add new review");
         long startTime = System.currentTimeMillis();
-        reviewService.addReviewRequest(addReviewRequestDTO);
+        reviewService.addReview(addReviewRequestDTO);
         log.info("Review was added. It took {} ms", System.currentTimeMillis() - startTime);
         SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO("OK");
         return new ResponseEntity<>(simpleResponseDTO, HttpStatus.OK);
@@ -42,7 +46,7 @@ public class ReviewController {
                                           @RequestHeader(value = "authToken") String token) throws RestrictAccessException {
         log.info("Attempt to delete review");
         long startTime = System.currentTimeMillis();
-        reviewService.removeReviewRequest(addReviewRequestDTO.getId(), token);
+        reviewSecurityService.deleteReview(addReviewRequestDTO.getId(), token);
         log.info("Review was deleted. It took {} ms", System.currentTimeMillis() - startTime);
         SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO("OK");
         return new ResponseEntity<>(simpleResponseDTO, HttpStatus.OK);

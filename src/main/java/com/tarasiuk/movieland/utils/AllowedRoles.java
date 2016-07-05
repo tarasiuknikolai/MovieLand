@@ -1,6 +1,6 @@
 package com.tarasiuk.movieland.utils;
 
-import com.tarasiuk.movieland.security.Roles;
+import com.tarasiuk.movieland.service.security.Roles;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -2,7 +2,7 @@ package com.tarasiuk.movieland.cache;
 
 import com.tarasiuk.movieland.dto.request.AuthRequestDTO;
 import com.tarasiuk.movieland.entity.User;
-import com.tarasiuk.movieland.security.Roles;
+import com.tarasiuk.movieland.service.security.Roles;
 import com.tarasiuk.movieland.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
