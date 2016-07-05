@@ -31,6 +31,7 @@ public class MovieByIdDTO {
     @JacksonXmlElementWrapper(localName = "reviews")
     private List<Review> review;
     private double rating;
+    private double price;
 
     public String getNameRus() {
         return nameRus;
@@ -96,4 +97,11 @@ public class MovieByIdDTO {
         this.rating = rating;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 }

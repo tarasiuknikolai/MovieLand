@@ -36,26 +36,28 @@ public class MovieController {
     @RequestMapping(value = "/movie/{movieId}", method = RequestMethod.GET)
     @ResponseBody
     public MovieByIdDTO getMovieById(@PathVariable int movieId,
-                                     @RequestHeader(value = "authToken", required = false) String token) {
+                                     @RequestHeader(value = "authToken", required = false) String token,
+                                     @RequestParam(value = "currency", required = false) String currency) {
         log.info("Sending request to get movie with id = {}", movieId);
         long startTime = System.currentTimeMillis();
-        MovieByIdDTO movieByIdDTO = modelMapper.map(movieSecurityService.getById(movieId, token), MovieByIdDTO.class);
+        MovieByIdDTO movieByIdDTO = modelMapper.map(movieSecurityService.getById(movieId, token, currency), MovieByIdDTO.class);
         log.info("Movie with ID {} is received. It took {} ms", movieId, System.currentTimeMillis() - startTime);
         return movieByIdDTO;
     }
 
     @RequestMapping(value = "/movies", method = RequestMethod.GET)
     @ResponseBody
-    public MoviesListDTO getAll(@RequestParam(value = "rating", required = false) String ratingOrder
-            , @RequestParam(value = "price", required = false) String priceOrder
-            , @RequestParam(value = "page", required = false) Integer pageNumber) {
+    public MoviesListDTO getAll(@RequestParam(value = "rating", required = false) String ratingOrder,
+                                @RequestParam(value = "price", required = false) String priceOrder,
+                                @RequestParam(value = "page", required = false) Integer pageNumber,
+                                @RequestParam(value = "currency", required = false) String currency) {
 
         log.info("Sending request to get all movies");
         long startTime = System.currentTimeMillis();
 
         GetMovieRequestDTO getMovieRequestDTO = createGetMovieRequestDTO(ratingOrder, priceOrder, pageNumber);
 
-        List<Movie> listMovie = movieService.getAll(getMovieRequestDTO);
+        List<Movie> listMovie = movieService.getAll(getMovieRequestDTO, currency);
 
         List<MovieAllDTO> movieListDTO = new ArrayList<>();
         for (Movie movie : listMovie) {

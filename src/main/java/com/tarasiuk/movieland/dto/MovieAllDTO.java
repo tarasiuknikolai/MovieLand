@@ -13,6 +13,7 @@ public class MovieAllDTO {
     private String nameOrigin;
     private int year;
     private double rating;
+    private double price;
 
     @JsonSerialize(using = JsonCustomGenreSerializer.class)
     @JacksonXmlElementWrapper(localName = "genres")
@@ -56,5 +57,13 @@ public class MovieAllDTO {
 
     public void setGenre(List<Genre> genre) {
         this.genre = genre;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

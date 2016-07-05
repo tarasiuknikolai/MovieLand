@@ -13,9 +13,9 @@ public interface MovieService {
 
     List<Movie> getAll(SearchMovieRequestDTO queryQuestion);
 
-    List<Movie> getAll(GetMovieRequestDTO getMovieRequestDTO);
+    List<Movie> getAll(GetMovieRequestDTO getMovieRequestDTO, String currency);
 
-    Movie getById(int id);
+    Movie getById(int id, String currency);
 
     void addMovieRequest(AddMovieRequestDTO addMovieRequestDTO) throws RestrictAccessException;
 
