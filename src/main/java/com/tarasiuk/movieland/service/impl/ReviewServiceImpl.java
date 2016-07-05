@@ -2,10 +2,8 @@ package com.tarasiuk.movieland.service.impl;
 
 import com.tarasiuk.movieland.dao.ReviewDAO;
 import com.tarasiuk.movieland.dto.request.AddReviewRequestDTO;
-import com.tarasiuk.movieland.dto.request.RateMovieRequestDTO;
 import com.tarasiuk.movieland.entity.Review;
 import com.tarasiuk.movieland.service.ReviewService;
-import com.tarasiuk.movieland.service.exceptions.RestrictAccessException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +12,11 @@ import java.util.List;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
+
+    private final ModelMapper modelMapper = new ModelMapper();
+
     @Autowired
-    ReviewDAO reviewDao;
+    private ReviewDAO reviewDao;
 
     @Override
     public List<Review> getAllForMovie(int movieId) {
@@ -28,23 +29,14 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void rateMovieRequest(RateMovieRequestDTO rateMovieRequestDTO) throws RestrictAccessException {
-
-    }
-
-    @Override
-    public void addReviewRequest(AddReviewRequestDTO addReviewRequestDTO) throws RestrictAccessException {
-        ModelMapper modelMapper = new ModelMapper();
+    public void addReview(AddReviewRequestDTO addReviewRequestDTO) {
         Review review = modelMapper.map(addReviewRequestDTO, Review.class);
         reviewDao.addReview(review);
     }
 
     @Override
-    public void removeReviewRequest(Integer reviewId, Integer userId) throws RestrictAccessException {
-        if (reviewDao.getReviewById(reviewId).getUserid()==userId) {
-            reviewDao.deleteReview(reviewId, userId);
-        } else {
-            throw new RestrictAccessException("You cannot delete not own review");
-        }
+    public void deleteReview(int reviewId) {
+        reviewDao.deleteReview(reviewId);
     }
+
 }

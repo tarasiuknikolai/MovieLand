@@ -13,23 +13,20 @@ import java.util.List;
 public class RatingServiceImpl implements RatingService {
 
     @Autowired
-    RatingDAO ratingDAO;
-
+    private RatingDAO ratingDAO;
 
     @Override
-    public void putRating(RatingRequestDTO ratingRequestDTO) {
+    public void addRating(RatingRequestDTO ratingRequestDTO) {
         if (ratingRequestDTO.getRating() < 1 || ratingRequestDTO.getRating() > 10) {
             throw new IllegalArgumentException("Rating should be between 1 and 10");
-        }
-
-        for (Rating rating : ratingDAO.getRatingByMovieId(ratingRequestDTO.getMovieId())) {
-            if (rating.getUserId() == ratingRequestDTO.getUserId()) {
-                ratingDAO.deleteRating(ratingRequestDTO);
-            }
         }
         ratingDAO.addRating(ratingRequestDTO);
     }
 
+    @Override
+    public void deleteRating(RatingRequestDTO ratingRequestDTO) {
+        ratingDAO.deleteRating(ratingRequestDTO);
+    }
 
     @Override
     public Rating getRatingById(int ratingId) {
@@ -45,4 +42,5 @@ public class RatingServiceImpl implements RatingService {
     public List<Rating> getRatingByUserId(int userId) {
         return ratingDAO.getRatingByUserId(userId);
     }
+
 }

@@ -13,6 +13,8 @@ public interface RatingDAO {
 
     Rating getRatingById(int ratingId);
 
+    Rating getRatingByMovieIdAndUserId(int movieId, int userId);
+
     List<Rating> getRatingByMovieId(int movieId);
 
     List<Rating> getRatingByUserId(int userId);

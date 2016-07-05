@@ -11,7 +11,6 @@ import com.tarasiuk.movieland.service.CountryService;
 import com.tarasiuk.movieland.service.GenreService;
 import com.tarasiuk.movieland.service.MovieService;
 import com.tarasiuk.movieland.service.ReviewService;
-import com.tarasiuk.movieland.service.exceptions.RestrictAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,6 +19,7 @@ import java.util.List;
 
 @Service
 public class MovieServiceImpl implements MovieService {
+
     @Autowired
     private MovieDAO movieDao;
 
@@ -93,27 +93,27 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void addMovieRequest(AddMovieRequestDTO addMovieRequestDTO) throws RestrictAccessException {
+    public void addMovieRequest(AddMovieRequestDTO addMovieRequestDTO) {
 
     }
 
     @Override
-    public void editMovieRequest(EditMovieRequestDTO editMovieRequestDTO) throws RestrictAccessException {
+    public void editMovieRequest(EditMovieRequestDTO editMovieRequestDTO) {
 
     }
 
     @Override
-    public void markMovieForRemovingRequest(int movieID) throws RestrictAccessException  {
+    public void markMovieForRemovingRequest(int movieID) {
 
     }
 
     @Override
-    public void unmarkMovieForRemovingRequest(int movieID) throws RestrictAccessException  {
+    public void unmarkMovieForRemovingRequest(int movieID) {
 
     }
 
     @Override
-    public void updateMovieRatingValue(int id) throws RestrictAccessException {
+    public void updateMovieRatingValue(int id) {
         movieDao.updateRatingValue(id);
     }
 }

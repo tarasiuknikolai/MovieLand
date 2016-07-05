@@ -8,6 +8,7 @@ import com.tarasiuk.movieland.dto.request.SearchMovieRequestDTO;
 import com.tarasiuk.movieland.entity.Movie;
 import com.tarasiuk.movieland.service.MovieService;
 
+import com.tarasiuk.movieland.service.security.MovieSecurityService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,18 +22,24 @@ import java.util.List;
 @Controller
 @RequestMapping("/v1")
 public class MovieController {
+
     private final Logger log = LoggerFactory.getLogger(getClass());
+
+    private final ModelMapper modelMapper = new ModelMapper();
 
     @Autowired
     private MovieService movieService;
 
+    @Autowired
+    private MovieSecurityService movieSecurityService;
+
     @RequestMapping(value = "/movie/{movieId}", method = RequestMethod.GET)
     @ResponseBody
-    public MovieByIdDTO getMovieById(@PathVariable int movieId) {
+    public MovieByIdDTO getMovieById(@PathVariable int movieId,
+                                     @RequestHeader(value = "authToken", required = false) String token) {
         log.info("Sending request to get movie with id = {}", movieId);
         long startTime = System.currentTimeMillis();
-        ModelMapper modelMapper = new ModelMapper();
-        MovieByIdDTO movieByIdDTO = modelMapper.map(movieService.getById(movieId), MovieByIdDTO.class);
+        MovieByIdDTO movieByIdDTO = modelMapper.map(movieSecurityService.getById(movieId, token), MovieByIdDTO.class);
         log.info("Movie with ID {} is received. It took {} ms", movieId, System.currentTimeMillis() - startTime);
         return movieByIdDTO;
     }
@@ -51,7 +58,6 @@ public class MovieController {
         List<Movie> listMovie = movieService.getAll(getMovieRequestDTO);
 
         List<MovieAllDTO> movieListDTO = new ArrayList<>();
-        ModelMapper modelMapper = new ModelMapper();
         for (Movie movie : listMovie) {
             MovieAllDTO movieAllDTO = modelMapper.map(movie, MovieAllDTO.class);
             movieListDTO.add(movieAllDTO);
@@ -76,7 +82,6 @@ public class MovieController {
     public List<MovieAllDTO> search(@RequestBody SearchMovieRequestDTO searchMovieRequestDTO) {
         List<Movie> listMovie = movieService.getAll(searchMovieRequestDTO);
         List<MovieAllDTO> movieListDTO = new ArrayList<>();
-        ModelMapper modelMapper = new ModelMapper();
         for (Movie movie : listMovie) {
             MovieAllDTO movieAllDTO = modelMapper.map(movie, MovieAllDTO.class);
             movieListDTO.add(movieAllDTO);

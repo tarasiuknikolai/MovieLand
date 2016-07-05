@@ -2,11 +2,10 @@ package com.tarasiuk.movieland.entity;
 
 public class Review {
     private int id;
-    private int movieid;
-    private int userid;
+    private int movieId;
+    private int userId;
     private Movie movie;
     private User user;
-
     private String review;
 
     public int getId() {
@@ -17,20 +16,20 @@ public class Review {
         this.id = id;
     }
 
-    public int getMovieid() {
-        return movieid;
+    public int getMovieId() {
+        return movieId;
     }
 
-    public void setMovieid(int movieid) {
-        this.movieid = movieid;
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
     }
 
-    public int getUserid() {
-        return userid;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUserid(int userid) {
-        this.userid = userid;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public Movie getMovie() {
@@ -61,10 +60,8 @@ public class Review {
     public String toString() {
         return "Review{" +
                 "id=" + id +
-                ", movieid=" + movieid +
-                ", userid=" + userid +
-                ", movie=" + movie +
-                ", user=" + user +
+                ", movieId=" + movieId +
+                ", userId=" + userId +
                 ", review='" + review + '\'' +
                 '}';
     }

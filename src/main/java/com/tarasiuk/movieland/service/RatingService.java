@@ -7,12 +7,14 @@ import java.util.List;
 
 public interface RatingService {
 
-    void putRating(RatingRequestDTO ratingRequestDTO);
-
     Rating getRatingById(int ratingId);
 
     List<Rating> getRatingByMovieId(int movieId);
 
     List<Rating> getRatingByUserId(int userId);
+
+    void addRating(RatingRequestDTO ratingRequestDTO);
+
+    void deleteRating(RatingRequestDTO ratingRequestDTO);
 
 }

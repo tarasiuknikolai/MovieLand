@@ -1,11 +1,9 @@
 package com.tarasiuk.movieland.entity;
 
-public class Rating {
-
+public class Poster {
     private int id;
     private int movieId;
-    private int userId;
-    private double rating;
+    private byte[] poster;
 
     public int getId() {
         return id;
@@ -23,29 +21,19 @@ public class Rating {
         this.movieId = movieId;
     }
 
-    public int getUserId() {
-        return userId;
+    public byte[] getPoster() {
+        return poster;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public double getRating() {
-        return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
+    public void setPoster(byte[] poster) {
+        this.poster = poster;
     }
 
     @Override
     public String toString() {
-        return "Rating{" +
+        return "Poster{" +
                 "id=" + id +
                 ", movieId=" + movieId +
-                ", userId=" + userId +
-                ", rating=" + rating +
                 '}';
     }
 }

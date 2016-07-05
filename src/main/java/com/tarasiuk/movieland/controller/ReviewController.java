@@ -2,6 +2,8 @@ package com.tarasiuk.movieland.controller;
 
 import com.tarasiuk.movieland.dto.SimpleResponseDTO;
 import com.tarasiuk.movieland.dto.request.AddReviewRequestDTO;
+import com.tarasiuk.movieland.service.security.ReviewSecurityService;
+import com.tarasiuk.movieland.service.security.Roles;
 import com.tarasiuk.movieland.service.ReviewService;
 import com.tarasiuk.movieland.service.exceptions.RestrictAccessException;
 import com.tarasiuk.movieland.utils.AllowedRoles;
@@ -21,27 +23,30 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-    @AllowedRoles(roles = {"USER", "ADMIN"})
+    @Autowired
+    private ReviewSecurityService reviewSecurityService;
+
+    @AllowedRoles(roles = {Roles.USER, Roles.ADMIN})
     @RequestMapping(value = "/review", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> putReview(@RequestBody AddReviewRequestDTO addReviewRequestDTO,
                                        @RequestHeader(value = "authToken") String token) throws RestrictAccessException {
         log.info("Attempt to add new review");
         long startTime = System.currentTimeMillis();
-        reviewService.addReviewRequest(addReviewRequestDTO);
+        reviewService.addReview(addReviewRequestDTO);
         log.info("Review was added. It took {} ms", System.currentTimeMillis() - startTime);
         SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO("OK");
         return new ResponseEntity<>(simpleResponseDTO, HttpStatus.OK);
     }
 
-    @AllowedRoles(roles = {"USER", "ADMIN"})
+    @AllowedRoles(roles = {Roles.USER, Roles.ADMIN})
     @RequestMapping(value = "/review", method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseEntity<?> deleteReview(@RequestBody AddReviewRequestDTO addReviewRequestDTO,
                                           @RequestHeader(value = "authToken") String token) throws RestrictAccessException {
         log.info("Attempt to delete review");
         long startTime = System.currentTimeMillis();
-        reviewService.removeReviewRequest(addReviewRequestDTO.getId(), addReviewRequestDTO.getUserId());
+        reviewSecurityService.deleteReview(addReviewRequestDTO.getId(), token);
         log.info("Review was deleted. It took {} ms", System.currentTimeMillis() - startTime);
         SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO("OK");
         return new ResponseEntity<>(simpleResponseDTO, HttpStatus.OK);

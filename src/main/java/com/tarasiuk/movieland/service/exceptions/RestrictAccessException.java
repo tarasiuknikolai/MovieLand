@@ -1,6 +1,6 @@
 package com.tarasiuk.movieland.service.exceptions;
 
-public class RestrictAccessException extends Exception{
+public class RestrictAccessException extends RuntimeException{
     public RestrictAccessException() {
     }
 

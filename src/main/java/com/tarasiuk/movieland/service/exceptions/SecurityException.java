@@ -1,6 +1,6 @@
 package com.tarasiuk.movieland.service.exceptions;
 
-public class SecurityException extends Exception{
+public class SecurityException extends RuntimeException{
 
     public SecurityException() {
     }

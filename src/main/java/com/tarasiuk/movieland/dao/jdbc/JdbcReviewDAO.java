@@ -59,15 +59,15 @@ public class JdbcReviewDAO implements ReviewDAO {
     public void addReview(Review review) {
         log.info("Start insert review for movie into DB");
         long startTime = System.currentTimeMillis();
-        int count = jdbcTemplate.update(insertReviewSQL, review.getMovieid(), review.getUserid(), review.getReview());
+        int count = jdbcTemplate.update(insertReviewSQL, review.getMovieId(), review.getUserId(), review.getReview());
         log.info("Inserted {} review for movie to DB. It took {} ms", count, System.currentTimeMillis() - startTime);
     }
 
     @Override
-    public void deleteReview(Integer reviewId, Integer userId) {
-        log.info("Start delete review with id = {} for movie by user with id = {}", reviewId, userId);
+    public void deleteReview(Integer reviewId) {
+        log.info("Start delete review with id = {} for movie", reviewId);
         long startTime = System.currentTimeMillis();
-        int count = jdbcTemplate.update(deleteReviewByIDSQL, reviewId, userId);
+        int count = jdbcTemplate.update(deleteReviewByIDSQL, reviewId);
         log.info("Deleted {} review with id = {}. It took {} ms", count, reviewId, System.currentTimeMillis() - startTime);
     }
 

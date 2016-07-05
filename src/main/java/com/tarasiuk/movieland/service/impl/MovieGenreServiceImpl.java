@@ -10,8 +10,9 @@ import java.util.List;
 
 @Service
 public class MovieGenreServiceImpl implements MovieGenreService {
+
     @Autowired
-    MovieGenreDAO movieGenreDao;
+    private MovieGenreDAO movieGenreDao;
 
     @Override
     public List<MovieGenre> getAllForMovie(int movieId) {
