@@ -21,10 +21,8 @@ public interface MovieService {
 
     void editMovieRequest(EditMovieRequestDTO editMovieRequestDTO) throws RestrictAccessException;
 
-    void markMovieForRemovingRequest(int movieID) throws RestrictAccessException;
-
-    void unmarkMovieForRemovingRequest(int movieID) throws RestrictAccessException;
-
     void updateMovieRatingValue(int id) throws RestrictAccessException;
+
+    void updateMarked2Del(int movieId, int mark);
 
 }

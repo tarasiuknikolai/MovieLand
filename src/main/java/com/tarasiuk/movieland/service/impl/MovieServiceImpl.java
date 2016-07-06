@@ -14,6 +14,7 @@ import com.tarasiuk.movieland.service.MovieService;
 import com.tarasiuk.movieland.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -125,17 +126,19 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void markMovieForRemovingRequest(int movieID) {
-
-    }
-
-    @Override
-    public void unmarkMovieForRemovingRequest(int movieID) {
-
-    }
-
-    @Override
     public void updateMovieRatingValue(int id) {
         movieDao.updateRatingValue(id);
     }
+
+    @Override
+    public void updateMarked2Del(int movieId, int mark) {
+        movieDao.updateMarked2Del(movieId, mark);
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void deleteMarkedFromDB() {
+        movieDao.deleteMarkedMoviesFromDB();
+    }
+
+
 }

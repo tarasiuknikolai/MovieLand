@@ -33,7 +33,7 @@ public class CurrencyRatesCache {
                 return cache;
             }
         }
-        return null;
+        throw new RuntimeException("Currency "+ currencyCode + "not found");
     }
 
     public void fillCache(List<NBUCurrencyRatesDTO> currencyRatesList) {
@@ -54,8 +54,8 @@ public class CurrencyRatesCache {
     public void refreshCache() throws IOException {
         synchronized (cacheList) {
             cacheList.clear();
+            initCache();
         }
-        initCache();
     }
 
 }

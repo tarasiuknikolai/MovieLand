@@ -16,4 +16,7 @@ public interface MovieDAO {
 
     void updateRatingValue(int movieId);
 
+    void updateMarked2Del(int movieId, int mark);
+
+    void deleteMarkedMoviesFromDB();
 }

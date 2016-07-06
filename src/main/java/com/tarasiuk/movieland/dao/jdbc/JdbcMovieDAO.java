@@ -38,6 +38,12 @@ public class JdbcMovieDAO implements MovieDAO {
     @Value("${sql.movie.update.rating}")
     private String updateMovieRatingSQL;
 
+    @Value("${sql.movie.marked2del}")
+    private String setMovieMarked2DelSQL;
+
+    @Value("${sql.movie.delete.marked}")
+    private String deleteMarkedMoviesSQL;
+
     @Override
     public List<Movie> getAll(SearchMovieRequestDTO queryQuestion) {
         log.info("Start query with conditions to get movies from DB");
@@ -73,4 +79,20 @@ public class JdbcMovieDAO implements MovieDAO {
         log.info("Finish {} update movie review in DB. It took {} ms", count, System.currentTimeMillis() - startTime);
     }
 
+    @Override
+    public void updateMarked2Del(int movieId, int mark) {
+        log.info("Start update movie to mark with {} for movieid {} into DB", mark, movieId);
+        long startTime = System.currentTimeMillis();
+        String chooseMark = (mark==0) ? "NULL" : "1";
+        int count = jdbcTemplate.update(setMovieMarked2DelSQL, mark , movieId);
+        log.info("Finish {} update movie to mark with {} in DB. It took {} ms", count, mark, System.currentTimeMillis() - startTime);
+    }
+
+    @Override
+    public void deleteMarkedMoviesFromDB() {
+        log.info("Start delete marked movies");
+        long startTime = System.currentTimeMillis();
+        int count = jdbcTemplate.update(deleteMarkedMoviesSQL);
+        log.info("Deleted {} movies. It took {} ms", count, System.currentTimeMillis() - startTime);
+    }
 }

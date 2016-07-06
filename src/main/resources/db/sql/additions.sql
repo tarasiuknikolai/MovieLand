@@ -19,3 +19,5 @@ create table if not exists poster
 , poster blob
 , FOREIGN KEY(movieid) REFERENCES movie(id)
 );
+--b7
+ALTER TABLE movie ADD COLUMN marked2del INTEGER;

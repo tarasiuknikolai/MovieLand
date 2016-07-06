@@ -13,6 +13,7 @@ public class Movie {
     private double rating;
     private double price;
     private List<Review> review;
+    private int marked2Del;
 
     public int getId() {
         return id;
@@ -94,19 +95,20 @@ public class Movie {
         this.review = review;
     }
 
+    public int getMarked2Del() {
+        return marked2Del;
+    }
+
+    public void setMarked2Del(int marked2Del) {
+        this.marked2Del = marked2Del;
+    }
+
     @Override
     public String toString() {
         return "Movie{" +
                 "id=" + id +
                 ", nameRus='" + nameRus + '\'' +
                 ", nameOrigin='" + nameOrigin + '\'' +
-                ", year=" + year +
-                ", country=" + country +
-                ", genre=" + genre +
-                ", description='" + description + '\'' +
-                ", rating=" + rating +
-                ", price=" + price +
-                ", review=" + review +
                 '}';
     }
 }

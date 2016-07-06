@@ -3,16 +3,21 @@ package com.tarasiuk.movieland.controller;
 import com.tarasiuk.movieland.dto.MovieAllDTO;
 import com.tarasiuk.movieland.dto.MovieByIdDTO;
 import com.tarasiuk.movieland.dto.MoviesListDTO;
+import com.tarasiuk.movieland.dto.SimpleResponseDTO;
 import com.tarasiuk.movieland.dto.request.GetMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.SearchMovieRequestDTO;
 import com.tarasiuk.movieland.entity.Movie;
 import com.tarasiuk.movieland.service.MovieService;
 
 import com.tarasiuk.movieland.service.security.MovieSecurityService;
+import com.tarasiuk.movieland.service.security.Roles;
+import com.tarasiuk.movieland.utils.AllowedRoles;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -91,4 +96,35 @@ public class MovieController {
         return movieListDTO;
     }
 
+    @AllowedRoles(roles = {Roles.ADMIN})
+    @RequestMapping(value = "/movie", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> addMovie(@RequestBody SearchMovieRequestDTO searchMovieRequestDTO) {
+        return new ResponseEntity<>(null , HttpStatus.OK);
+    }
+
+    @AllowedRoles(roles = {Roles.ADMIN})
+    @RequestMapping(value = "/movie", method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<?> editMovie(@RequestBody SearchMovieRequestDTO searchMovieRequestDTO) {
+        return new ResponseEntity<>(null , HttpStatus.OK);
+    }
+
+    @AllowedRoles(roles = {Roles.ADMIN})
+    @RequestMapping(value = "/movie/{movieId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseEntity<?> markToDeleteMovie(@PathVariable int movieId) {
+        movieService.updateMarked2Del(movieId, 1);
+        SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO("Movie " + movieId + " marked to del");
+        return new ResponseEntity<>(simpleResponseDTO , HttpStatus.OK);
+    }
+
+    @AllowedRoles(roles = {Roles.ADMIN})
+    @RequestMapping(value = "/movie/{movieId}/unmark", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> unmarkToDeleteMovie(@PathVariable int movieId) {
+        movieService.updateMarked2Del(movieId, 0);
+        SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO("Movie " + movieId + " unmarked");
+        return new ResponseEntity<>(simpleResponseDTO , HttpStatus.OK);
+    }
 }
