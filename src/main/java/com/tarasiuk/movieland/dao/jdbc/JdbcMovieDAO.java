@@ -1,5 +1,8 @@
 package com.tarasiuk.movieland.dao.jdbc;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 import com.tarasiuk.movieland.dao.MovieDAO;
@@ -13,6 +16,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -128,14 +134,31 @@ public class JdbcMovieDAO implements MovieDAO {
     public void insertMovie(AddMovieRequestDTO movie) {
         log.info("Start insert movie " + movie.getNameOrigin());
         long startTime = System.currentTimeMillis();
-        jdbcTemplate.update(insertMovieSQL, new Object[]{movie.getNameRus(), movie.getNameOrigin(), movie.getYear(), movie.getDescription(), movie.getRating(), movie.getPrice()});
-        int movieId = jdbcTemplate.queryForObject(getLastIdSQL, new Object []{"movie"}, Integer.class);
-        for (Integer genreId : movie.getGenre()) {
+        //jdbcTemplate.update(insertMovieSQL, new Object[]{movie.getNameRus(), movie.getNameOrigin(), movie.getYear(), movie.getDescription(), movie.getRating(), movie.getPrice()});
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(new PreparedStatementCreator() {
+                                @Override
+                                public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                                    PreparedStatement ps = con.prepareStatement(insertMovieSQL);
+                                    ps.setString(1,movie.getNameRus());
+                                    ps.setString(2,movie.getNameOrigin());
+                                    ps.setInt(3, movie.getYear());
+                                    ps.setString(4,movie.getDescription());
+                                    ps.setDouble(5, movie.getRating());
+                                    ps.setDouble(6, movie.getPrice());
+                                    return ps;
+                                }
+                            }, keyHolder);
+
+        int movieId = keyHolder.getKey().intValue();
+        System.out.println(keyHolder.getKey().intValue());
+        //int movieId = jdbcTemplate.queryForObject(getLastIdSQL, new Object []{"movie"}, Integer.class);
+        for (Integer genreId : movie.getGenre()) { //NPE!!!
             insertMovieGenre(movieId, genreId);
         }
         for (Integer countryId : movie.getCountry()) {
             insertMovieCountry(movieId, countryId);
         }
-        log.info("Movie with id = {} is inserted. It took {} ms",  movieId, System.currentTimeMillis() - startTime);
+        log.info("Movie with id = {} is inserted. It took {} ms", movieId, System.currentTimeMillis() - startTime);
     }
 }

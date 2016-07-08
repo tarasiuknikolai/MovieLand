@@ -101,17 +101,15 @@ public class MovieController {
     @RequestMapping(value = "/movie", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> addMovie(@RequestBody AddMovieRequestDTO movie) {
-        System.out.println(movie);
         movieService.addMovieRequest(movie);
         SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO("Movie " + movie.getNameOrigin() + " added to DB");
         return new ResponseEntity<>(simpleResponseDTO , HttpStatus.OK);
     }
 
-//    @AllowedRoles(roles = {Roles.ADMIN})
+    @AllowedRoles(roles = {Roles.ADMIN})
     @RequestMapping(value = "/movie", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<?> editMovie(@RequestBody AddMovieRequestDTO movie) {
-        System.out.println(movie);
         movieService.addMovieRequest(movie);
         SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO("Movie " + movie.getNameOrigin() + " updated in DB");
         return new ResponseEntity<>(simpleResponseDTO , HttpStatus.OK);
