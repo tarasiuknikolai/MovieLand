@@ -1,5 +1,6 @@
 package com.tarasiuk.movieland.service.impl;
 
+import com.tarasiuk.movieland.cache.CurrencyRatesCache;
 import com.tarasiuk.movieland.dao.MovieDAO;
 import com.tarasiuk.movieland.dto.request.AddMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.EditMovieRequestDTO;
@@ -13,8 +14,10 @@ import com.tarasiuk.movieland.service.MovieService;
 import com.tarasiuk.movieland.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -31,6 +34,9 @@ public class MovieServiceImpl implements MovieService {
 
     @Autowired
     private GenreService genreService;
+
+    @Autowired
+    private CurrencyRatesCache currencyRatesCache;
 
     @Value("${sql.review.limit:2}")
     private int limitCount;
@@ -66,8 +72,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie getById(int id) {
+    public Movie getById(int id, String currency) {
         Movie movie = movieDao.getById(id);
+        if (currency != null) {
+            movie.setPrice(calcPrice(movie.getPrice(), currencyRatesCache.getCurrencyRateByCharCode(currency).getRate()));
+        }
         populateCountry(movie);
         populateGenre(movie);
         populateReview(movie);
@@ -83,9 +92,23 @@ public class MovieServiceImpl implements MovieService {
         return movieList;
     }
 
+    private double calcPrice(double initValue, double rate) {
+        int scale = 2;
+        BigDecimal bd = new BigDecimal(initValue/rate);
+        bd = bd.setScale(scale, BigDecimal.ROUND_HALF_UP);
+        return bd.doubleValue();
+    }
+
     @Override
-    public List<Movie> getAll(GetMovieRequestDTO getMovieRequestDTO) {
+    public List<Movie> getAll(GetMovieRequestDTO getMovieRequestDTO, String currency) {
         List<Movie> movieList = movieDao.getAll(getMovieRequestDTO);
+
+        if (currency != null) {
+            for (Movie movie : movieList) {
+                movie.setPrice(calcPrice(movie.getPrice(), currencyRatesCache.getCurrencyRateByCharCode(currency).getRate()));
+            }
+        }
+
         populateCountry(movieList);
         populateGenre(movieList);
         populateReview(movieList);
@@ -94,26 +117,23 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void addMovieRequest(AddMovieRequestDTO addMovieRequestDTO) {
-
-    }
-
-    @Override
-    public void editMovieRequest(EditMovieRequestDTO editMovieRequestDTO) {
-
-    }
-
-    @Override
-    public void markMovieForRemovingRequest(int movieID) {
-
-    }
-
-    @Override
-    public void unmarkMovieForRemovingRequest(int movieID) {
-
+        movieDao.insertMovie(addMovieRequestDTO);
     }
 
     @Override
     public void updateMovieRatingValue(int id) {
         movieDao.updateRatingValue(id);
     }
+
+    @Override
+    public void updateMarked2Del(int movieId, int mark) {
+        movieDao.updateMarked2Del(movieId, mark);
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void deleteMarkedFromDB() {
+        movieDao.deleteMarkedMoviesFromDB();
+    }
+
+
 }

@@ -1,5 +1,8 @@
 package com.tarasiuk.movieland.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class Movie {
@@ -7,7 +10,9 @@ public class Movie {
     private String nameRus;
     private String nameOrigin;
     private int year;
+    @JsonProperty("country")
     private List<Country> country;
+    @JsonProperty("genre")
     private List<Genre> genre;
     private String description;
     private double rating;

@@ -3,16 +3,22 @@ package com.tarasiuk.movieland.controller;
 import com.tarasiuk.movieland.dto.MovieAllDTO;
 import com.tarasiuk.movieland.dto.MovieByIdDTO;
 import com.tarasiuk.movieland.dto.MoviesListDTO;
+import com.tarasiuk.movieland.dto.SimpleResponseDTO;
+import com.tarasiuk.movieland.dto.request.AddMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.GetMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.SearchMovieRequestDTO;
 import com.tarasiuk.movieland.entity.Movie;
 import com.tarasiuk.movieland.service.MovieService;
 
 import com.tarasiuk.movieland.service.security.MovieSecurityService;
+import com.tarasiuk.movieland.service.security.Roles;
+import com.tarasiuk.movieland.utils.AllowedRoles;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,26 +42,28 @@ public class MovieController {
     @RequestMapping(value = "/movie/{movieId}", method = RequestMethod.GET)
     @ResponseBody
     public MovieByIdDTO getMovieById(@PathVariable int movieId,
-                                     @RequestHeader(value = "authToken", required = false) String token) {
+                                     @RequestHeader(value = "authToken", required = false) String token,
+                                     @RequestParam(value = "currency", required = false) String currency) {
         log.info("Sending request to get movie with id = {}", movieId);
         long startTime = System.currentTimeMillis();
-        MovieByIdDTO movieByIdDTO = modelMapper.map(movieSecurityService.getById(movieId, token), MovieByIdDTO.class);
+        MovieByIdDTO movieByIdDTO = modelMapper.map(movieSecurityService.getById(movieId, token, currency), MovieByIdDTO.class);
         log.info("Movie with ID {} is received. It took {} ms", movieId, System.currentTimeMillis() - startTime);
         return movieByIdDTO;
     }
 
     @RequestMapping(value = "/movies", method = RequestMethod.GET)
     @ResponseBody
-    public MoviesListDTO getAll(@RequestParam(value = "rating", required = false) String ratingOrder
-            , @RequestParam(value = "price", required = false) String priceOrder
-            , @RequestParam(value = "page", required = false) Integer pageNumber) {
+    public MoviesListDTO getAll(@RequestParam(value = "rating", required = false) String ratingOrder,
+                                @RequestParam(value = "price", required = false) String priceOrder,
+                                @RequestParam(value = "page", required = false) Integer pageNumber,
+                                @RequestParam(value = "currency", required = false) String currency) {
 
         log.info("Sending request to get all movies");
         long startTime = System.currentTimeMillis();
 
         GetMovieRequestDTO getMovieRequestDTO = createGetMovieRequestDTO(ratingOrder, priceOrder, pageNumber);
 
-        List<Movie> listMovie = movieService.getAll(getMovieRequestDTO);
+        List<Movie> listMovie = movieService.getAll(getMovieRequestDTO, currency);
 
         List<MovieAllDTO> movieListDTO = new ArrayList<>();
         for (Movie movie : listMovie) {
@@ -89,4 +97,39 @@ public class MovieController {
         return movieListDTO;
     }
 
+//    @AllowedRoles(roles = {Roles.ADMIN})
+    @RequestMapping(value = "/movie", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> addMovie(@RequestBody AddMovieRequestDTO movie) {
+        movieService.addMovieRequest(movie);
+        SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO("Movie " + movie.getNameOrigin() + " added to DB");
+        return new ResponseEntity<>(simpleResponseDTO , HttpStatus.OK);
+    }
+
+    @AllowedRoles(roles = {Roles.ADMIN})
+    @RequestMapping(value = "/movie", method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<?> editMovie(@RequestBody AddMovieRequestDTO movie) {
+        movieService.addMovieRequest(movie);
+        SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO("Movie " + movie.getNameOrigin() + " updated in DB");
+        return new ResponseEntity<>(simpleResponseDTO , HttpStatus.OK);
+    }
+
+    @AllowedRoles(roles = {Roles.ADMIN})
+    @RequestMapping(value = "/movie/{movieId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseEntity<?> markToDeleteMovie(@PathVariable int movieId) {
+        movieService.updateMarked2Del(movieId, 1);
+        SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO("Movie " + movieId + " marked to del");
+        return new ResponseEntity<>(simpleResponseDTO , HttpStatus.OK);
+    }
+
+    @AllowedRoles(roles = {Roles.ADMIN})
+    @RequestMapping(value = "/movie/{movieId}/unmark", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> unmarkToDeleteMovie(@PathVariable int movieId) {
+        movieService.updateMarked2Del(movieId, 0);
+        SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO("Movie " + movieId + " unmarked");
+        return new ResponseEntity<>(simpleResponseDTO , HttpStatus.OK);
+    }
 }

@@ -13,18 +13,14 @@ public interface MovieService {
 
     List<Movie> getAll(SearchMovieRequestDTO queryQuestion);
 
-    List<Movie> getAll(GetMovieRequestDTO getMovieRequestDTO);
+    List<Movie> getAll(GetMovieRequestDTO getMovieRequestDTO, String currency);
 
-    Movie getById(int id);
+    Movie getById(int id, String currency);
 
     void addMovieRequest(AddMovieRequestDTO addMovieRequestDTO) throws RestrictAccessException;
 
-    void editMovieRequest(EditMovieRequestDTO editMovieRequestDTO) throws RestrictAccessException;
-
-    void markMovieForRemovingRequest(int movieID) throws RestrictAccessException;
-
-    void unmarkMovieForRemovingRequest(int movieID) throws RestrictAccessException;
-
     void updateMovieRatingValue(int id) throws RestrictAccessException;
+
+    void updateMarked2Del(int movieId, int mark);
 
 }

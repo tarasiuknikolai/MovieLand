@@ -19,8 +19,8 @@ public class MovieSecurityService {
     @Autowired
     private RatingDAO ratingDAO;
 
-    public Movie getById(int id, String token) {
-        Movie movie = movieService.getById(id);
+    public Movie getById(int id, String token, String currency) {
+        Movie movie = movieService.getById(id, currency);
         if (token != null && sessionCache.getUserByToken(token) != null) {
             movie.setRating(ratingDAO.getRatingByMovieIdAndUserId(id,sessionCache.getUserByToken(token).getId()).getRating());
         }
