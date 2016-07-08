@@ -117,12 +117,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void addMovieRequest(AddMovieRequestDTO addMovieRequestDTO) {
-
-    }
-
-    @Override
-    public void editMovieRequest(EditMovieRequestDTO editMovieRequestDTO) {
-
+        movieDao.insertMovie(addMovieRequestDTO);
     }
 
     @Override

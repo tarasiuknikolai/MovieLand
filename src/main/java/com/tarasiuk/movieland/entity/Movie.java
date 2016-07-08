@@ -1,5 +1,8 @@
 package com.tarasiuk.movieland.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class Movie {
@@ -7,13 +10,14 @@ public class Movie {
     private String nameRus;
     private String nameOrigin;
     private int year;
+    @JsonProperty("country")
     private List<Country> country;
+    @JsonProperty("genre")
     private List<Genre> genre;
     private String description;
     private double rating;
     private double price;
     private List<Review> review;
-    private int marked2Del;
 
     public int getId() {
         return id;
@@ -95,20 +99,19 @@ public class Movie {
         this.review = review;
     }
 
-    public int getMarked2Del() {
-        return marked2Del;
-    }
-
-    public void setMarked2Del(int marked2Del) {
-        this.marked2Del = marked2Del;
-    }
-
     @Override
     public String toString() {
         return "Movie{" +
                 "id=" + id +
                 ", nameRus='" + nameRus + '\'' +
                 ", nameOrigin='" + nameOrigin + '\'' +
+                ", year=" + year +
+                ", country=" + country +
+                ", genre=" + genre +
+                ", description='" + description + '\'' +
+                ", rating=" + rating +
+                ", price=" + price +
+                ", review=" + review +
                 '}';
     }
 }

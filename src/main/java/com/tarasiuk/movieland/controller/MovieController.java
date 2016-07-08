@@ -4,6 +4,7 @@ import com.tarasiuk.movieland.dto.MovieAllDTO;
 import com.tarasiuk.movieland.dto.MovieByIdDTO;
 import com.tarasiuk.movieland.dto.MoviesListDTO;
 import com.tarasiuk.movieland.dto.SimpleResponseDTO;
+import com.tarasiuk.movieland.dto.request.AddMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.GetMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.SearchMovieRequestDTO;
 import com.tarasiuk.movieland.entity.Movie;
@@ -96,18 +97,24 @@ public class MovieController {
         return movieListDTO;
     }
 
-    @AllowedRoles(roles = {Roles.ADMIN})
+//    @AllowedRoles(roles = {Roles.ADMIN})
     @RequestMapping(value = "/movie", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> addMovie(@RequestBody SearchMovieRequestDTO searchMovieRequestDTO) {
-        return new ResponseEntity<>(null , HttpStatus.OK);
+    public ResponseEntity<?> addMovie(@RequestBody AddMovieRequestDTO movie) {
+        System.out.println(movie);
+        movieService.addMovieRequest(movie);
+        SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO("Movie " + movie.getNameOrigin() + " added to DB");
+        return new ResponseEntity<>(simpleResponseDTO , HttpStatus.OK);
     }
 
-    @AllowedRoles(roles = {Roles.ADMIN})
+//    @AllowedRoles(roles = {Roles.ADMIN})
     @RequestMapping(value = "/movie", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<?> editMovie(@RequestBody SearchMovieRequestDTO searchMovieRequestDTO) {
-        return new ResponseEntity<>(null , HttpStatus.OK);
+    public ResponseEntity<?> editMovie(@RequestBody AddMovieRequestDTO movie) {
+        System.out.println(movie);
+        movieService.addMovieRequest(movie);
+        SimpleResponseDTO simpleResponseDTO = new SimpleResponseDTO("Movie " + movie.getNameOrigin() + " updated in DB");
+        return new ResponseEntity<>(simpleResponseDTO , HttpStatus.OK);
     }
 
     @AllowedRoles(roles = {Roles.ADMIN})

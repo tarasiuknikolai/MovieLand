@@ -2,6 +2,7 @@ package com.tarasiuk.movieland.dao;
 
 import java.util.List;
 
+import com.tarasiuk.movieland.dto.request.AddMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.GetMovieRequestDTO;
 import com.tarasiuk.movieland.dto.request.SearchMovieRequestDTO;
 import com.tarasiuk.movieland.entity.Movie;
@@ -19,4 +20,6 @@ public interface MovieDAO {
     void updateMarked2Del(int movieId, int mark);
 
     void deleteMarkedMoviesFromDB();
+
+    void insertMovie(AddMovieRequestDTO movie);
 }
